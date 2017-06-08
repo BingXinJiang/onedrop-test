@@ -17,14 +17,12 @@ class MainPage extends React.Component{
     }
 
     componentDidMount() {
-        $('#first').bind('click', function () {
-            console.log('点击了')
-        })
+
     }
     render(){
         return (
             <div>
-                <Button id="first">这是WeUI的按钮</Button>
+                用来测试吧
             </div>
         )
     }

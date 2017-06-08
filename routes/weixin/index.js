@@ -6,7 +6,6 @@ var router = express.Router();
 
 /* GET weixin page. */
 router.get('/main', function(req, res, next) {
-    console.log('获取微信页面');
     res.render('weixin');
 });
 
