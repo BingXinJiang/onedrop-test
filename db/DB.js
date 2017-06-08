@@ -1,0 +1,27 @@
+var mysql = require('mysql');
+
+var congig = {
+	host: '192.168.217.1',
+	user: 'root',   
+	password: '1028',
+	database:'test',
+	port: 3306  
+}
+
+var pool = mysql.createPool(congig);
+
+var query = function(sql, callback){
+	pool.getConnection(function(err, conn){
+		if(err){
+			callback(err,null,null);
+		}else{
+			conn.query(sql, function(qerr,vals,fields){
+				conn.release();
+				callback(qerr,vals,fields);
+			})
+		}
+	})
+}
+
+module.exports = query;
+
