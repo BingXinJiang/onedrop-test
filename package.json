@@ -1,3 +1,4 @@
+
 {
   "name": "onedrop",
   "version": "0.0.0",
@@ -6,6 +7,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "async": "^2.3.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-preset-es2015": "^6.24.0",
@@ -20,12 +22,28 @@
     "jsx-loader": "^0.13.2",
     "morgan": "~1.7.0",
     "mysql": "latest",
+    "nuka-carousel": "^2.0.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "react-swiper": "^0.1.5",
+    "react-swipes": "^1.0.6",
     "react-weui": "^1.0.3",
+    "request": "^2.81.0",
     "serve-favicon": "~2.3.2",
     "style-loader": "^0.16.1",
     "webpack": "^2.3.2",
-    "weui": "^1.1.0"
+    "weui": "^1.1.0",
+    "xml2js": "^0.4.17"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-plugin-import": "^1.2.1"
   }
 }

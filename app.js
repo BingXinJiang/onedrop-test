@@ -7,9 +7,7 @@ var bodyParser = require('body-parser');
 var ejs = require('ejs');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var courses = require('./routes/courses');
-var adddb = require('./routes/db/db_add');
 var weixin = require('./routes/weixin/index');
 
 var app = express();
@@ -28,10 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/public')));
 
 app.use('/', index);
-app.use('/users', users);
-app.use('/courses', courses);
-app.use('/adddb', adddb);
-app.use('/weixin', weixin);
+app.use('/main', weixin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

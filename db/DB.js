@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
 var congig = {
-	host: '192.168.217.1',
+	host: '119.23.24.122',
 	user: 'root',   
 	password: '1028',
 	database:'test',

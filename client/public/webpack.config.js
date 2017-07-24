@@ -14,8 +14,9 @@ module.exports = {
     module:{
         loaders:[
             {
-                test:/\.js$/,
-                loader:'babel-loader!jsx-loader?harmony'
+                test: /\.js|jsx$/,
+                exclude: /(node_modules|bower_components)/,
+                loaders: ['babel-loader?presets[]=es2015,presets[]=react,presets[]=stage-0']
             },
             {
                 test:/\.css$/,
@@ -33,6 +34,12 @@ module.exports = {
             },
             output:{
                 comments:false,
+            }
+        }),
+        new webpack.DefinePlugin({
+            'process.env':{
+                // 'NODE_ENV': JSON.stringify('production')
+                'NODE_ENV': JSON.stringify('development')
             }
         })
     ]
