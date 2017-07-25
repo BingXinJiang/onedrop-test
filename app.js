@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 var ejs = require('ejs');
 
 var index = require('./routes/index');
-var courses = require('./routes/courses');
 var weixin = require('./routes/weixin/index');
+var upload = require('./routes/upload/upload');
+
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'client/public')));
 
 app.use('/', index);
 app.use('/main', weixin);
+app.use('/upload',upload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

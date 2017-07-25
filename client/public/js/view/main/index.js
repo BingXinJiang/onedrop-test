@@ -16,6 +16,7 @@ import {
 
 import Answer from '../answer/Answer';
 import Course from '../course/Course';
+import CourseCommit from '../course/CourseCommit';
 import Label from '../label/Label';
 import Question from '../question/Question';
 import Rank from '../rank/Rank';
@@ -65,7 +66,7 @@ class MainPage extends React.Component{
                                 >
                                     <SubMenu key="sub1" title={<span><Icon type="user" />课程</span>}>
                                         <Menu.Item key="1"><Link to="/main/course">所有课程</Link></Menu.Item>
-                                        <Menu.Item key="2">option2</Menu.Item>
+                                        <Menu.Item key="2"><Link to="/main/course_commit">提交课程</Link></Menu.Item>
                                         <Menu.Item key="3">option3</Menu.Item>
                                         <Menu.Item key="4">option4</Menu.Item>
                                     </SubMenu>
@@ -98,6 +99,7 @@ class MainPage extends React.Component{
                             <Content style={{ padding: '0 24px', minHeight: 280 }}>
                                 <Route path="/main/answer" component={Answer}></Route>
                                 <Route path="/main/course" component={Course}></Route>
+                                <Route path="/main/course_commit" component={CourseCommit}></Route>
                                 <Route path="/main/label" component={Label}></Route>
                                 <Route path="/main/question" component={Question}></Route>
                                 <Route path="/main/rank" component={Rank}></Route>
