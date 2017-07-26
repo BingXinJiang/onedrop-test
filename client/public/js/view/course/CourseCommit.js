@@ -3,12 +3,13 @@
  */
 
 import React from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Button,DatePicker,
+import { Form, Input, Tooltip, Icon, Cascader, Button,DatePicker,Mention,
     InputNumber,Upload
 } from 'antd';
 import UploadFile from '../../Tool/UploadFile';
-
 const FormItem = Form.Item;
+const { toString } = Mention;
+
 const authors = [{
     value: '马成功',
     label: '马成功'
@@ -158,6 +159,28 @@ class RegistrationForm extends React.Component {
 
 
 
+                <FormItem
+                    {...formItemLayout}
+                    label={(
+                        <span>
+                          section_des&nbsp;
+                            <Tooltip title="请输入小节详细内容json">
+                            <Icon type="question-circle-o" />
+                          </Tooltip>
+                        </span>
+                    )}
+                    hasFeedback
+                >
+                    <Mention
+                        style={{ width: '100%', height: 100 }}
+                        onChange={(editorState)=>{
+                            // console.log(toString(editorState));
+                        }}
+                        suggestions={[]}
+                        multiLines
+                    />
+
+                </FormItem>
 
 
 
@@ -210,15 +233,73 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="section_pic"
+                    label="section_list_img"
                 >
-                    <Upload {...picProps}>
+                    <Upload {...{...picProps , action:'http://192.168.1.37:3300/upload/img/list'}}>
                         <Button>
                             <Icon type="upload" /> upload
                         </Button>
                     </Upload>
                 </FormItem>
 
+
+
+                <FormItem
+                    {...formItemLayout}
+                    label="section_detail_img"
+                >
+                    <Upload {...{...picProps , action:'http://192.168.1.37:3300/upload/img/detail'}}>
+                        <Button>
+                            <Icon type="upload" /> upload
+                        </Button>
+                    </Upload>
+                </FormItem>
+
+
+
+                <FormItem
+                    {...formItemLayout}
+                    label={(
+                        <span>
+                          section_intro&nbsp;
+                            <Tooltip title="请输入小节简介">
+                            <Icon type="question-circle-o" />
+                          </Tooltip>
+                        </span>
+                    )}
+                    hasFeedback
+                >
+                    <Mention
+                        style={{ width: '100%', height: 100 }}
+                        onChange={(editorState)=>{
+                            // console.log(toString(editorState));
+                        }}
+                        suggestions={[]}
+                        multiLines
+                    />
+
+                </FormItem>
+
+
+
+                <FormItem
+                    {...formItemLayout}
+                    label={(
+                        <span>
+                          label_des&nbsp;
+                            <Tooltip title="请输入小节标签">
+                            <Icon type="question-circle-o" />
+                          </Tooltip>
+                        </span>
+                    )}
+                    hasFeedback
+                >
+                    {getFieldDecorator('label_des', {
+                        rules: [{ required: true, message: 'Please input label_des!', whitespace: true }],
+                    })(
+                        <Input />
+                    )}
+                </FormItem>
 
 
                 <FormItem {...tailFormItemLayout}>
