@@ -14,6 +14,8 @@ import {
     Link
 } from 'react-router-dom';
 
+import User from '../user/User';
+import UserFraction from '../user/UserFraction';
 import Answer from '../answer/Answer';
 import Course from '../course/Course';
 import CourseCommit from '../course/CourseCommit';
@@ -69,34 +71,39 @@ class MainPage extends React.Component{
                                     defaultOpenKeys={['sub1']}
                                     style={{ height: '100%' }}
                                 >
-                                    <SubMenu key="sub1" title={<span><Icon type="book" />课程</span>}>
-                                        <Menu.Item key="1"><Link to="/main/course">所有课程</Link></Menu.Item>
-                                        <Menu.Item key="2"><Link to="/main/course_commit">提交课程</Link></Menu.Item>
-                                        <Menu.Item key="3"><Link to="/main/course_label">课程标签</Link></Menu.Item>
+                                    <SubMenu key="sub1" title={<span><Icon type="book" />用户</span>}>
+                                        <Menu.Item key="01"><Link to="/main/user">所有用户</Link></Menu.Item>
+                                        <Menu.Item key="02"><Link to="/main/user_fraction">用户能量</Link></Menu.Item>
                                     </SubMenu>
-                                    <SubMenu key="sub2" title={<span><Icon type="laptop" />标签</span>}>
-                                        <Menu.Item key="5"><Link to="/main/label">所有标签</Link></Menu.Item>
-                                        <Menu.Item key="6"><Link to="/main/add_label">增加标签</Link></Menu.Item>
+                                    <SubMenu key="sub2" title={<span><Icon type="book" />课程</span>}>
+                                        <Menu.Item key="11"><Link to="/main/course">所有课程</Link></Menu.Item>
+                                        <Menu.Item key="12"><Link to="/main/course_commit">提交课程</Link></Menu.Item>
+                                        <Menu.Item key="13"><Link to="/main/course_label">课程标签</Link></Menu.Item>
                                     </SubMenu>
-                                    <SubMenu key="sub3" title={<span><Icon type="notification" />排行</span>}>
-                                        <Menu.Item key="9"><Link to="/main/rank">所有排行</Link></Menu.Item>
+                                    <SubMenu key="sub3" title={<span><Icon type="laptop" />标签</span>}>
+                                        <Menu.Item key="21"><Link to="/main/label">所有标签</Link></Menu.Item>
+                                        <Menu.Item key="22"><Link to="/main/add_label">增加标签</Link></Menu.Item>
                                     </SubMenu>
-                                    <SubMenu key="sub4" title={<span><Icon type="notification" />问题</span>}>
-                                        <Menu.Item key="13"><Link to="/main/question">所有问题</Link></Menu.Item>
+                                    <SubMenu key="sub4" title={<span><Icon type="notification" />排行</span>}>
+                                        <Menu.Item key="31"><Link to="/main/rank">所有排行</Link></Menu.Item>
                                     </SubMenu>
-                                    <SubMenu key="sub5" title={<span><Icon type="notification" />答案</span>}>
-                                        <Menu.Item key="17"><Link to="/main/answer">所有答案</Link></Menu.Item>
+                                    <SubMenu key="sub5" title={<span><Icon type="notification" />问题</span>}>
+                                        <Menu.Item key="32"><Link to="/main/question">所有问题</Link></Menu.Item>
                                     </SubMenu>
-                                    <SubMenu key="sub6" title={<span><Icon type="notification" />老师</span>}>
-                                        <Menu.Item key="21"><Link to="/main/teacher">所有老师</Link></Menu.Item>
-                                        <Menu.Item key="22"><Link to="/main/add_teacher">增加老师</Link></Menu.Item>
+                                    <SubMenu key="sub6" title={<span><Icon type="notification" />答案</span>}>
+                                        <Menu.Item key="41"><Link to="/main/answer">所有答案</Link></Menu.Item>
                                     </SubMenu>
-                                    <SubMenu key="sub7" title={<span><Icon type="notification" />留言</span>}>
-                                        <Menu.Item key="26"><Link to="/main/comment">所有留言</Link></Menu.Item>
+                                    <SubMenu key="sub7" title={<span><Icon type="notification" />老师</span>}>
+                                        <Menu.Item key="51"><Link to="/main/teacher">所有老师</Link></Menu.Item>
+                                        <Menu.Item key="52"><Link to="/main/add_teacher">增加老师</Link></Menu.Item>
+                                    </SubMenu>
+                                    <SubMenu key="sub8" title={<span><Icon type="notification" />留言</span>}>
+                                        <Menu.Item key="61"><Link to="/main/comment">所有留言</Link></Menu.Item>
                                     </SubMenu>
                                 </Menu>
                             </Sider>
                             <Content style={{ padding: '0 24px', minHeight: 280 }}>
+                                <Route path="/main/user" component={User}></Route>
                                 <Route path="/main/answer" component={Answer}></Route>
                                 <Route path="/main/course" component={Course}></Route>
                                 <Route path="/main/course_commit" component={CourseCommit}></Route>
