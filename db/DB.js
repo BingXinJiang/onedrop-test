@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var congig = {
 	host: '119.23.24.122',
 	user: 'root',   
-	password: '1028',
+	password: 'JSong1213556',
 	database:'test',
 	port: 3306  
 }

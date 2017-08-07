@@ -16,7 +16,12 @@ module.exports = {
             {
                 test: /\.js|jsx$/,
                 exclude: /(node_modules|bower_components)/,
-                loaders: ['babel-loader?presets[]=es2015,presets[]=react,presets[]=stage-0']
+                // loaders: ['babel-loader?presets[]=es2015,presets[]=react,presets[]=stage-0'],
+                loaders: 'babel-loader',
+                query: {
+                    "presets": ['es2015','react',"stage-1"],
+                    "plugins": ["transform-decorators-legacy"]
+                }
             },
             {
                 test:/\.css$/,
