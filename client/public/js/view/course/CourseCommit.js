@@ -9,6 +9,8 @@ import { Form, Input, Tooltip, Icon, Cascader, Button,DatePicker,Mention,
 import UploadFile from '../../Tool/UploadFile';
 const FormItem = Form.Item;
 const { toString } = Mention;
+import BACK from '../../const/BackControll';
+import Tool from '../../Tool/Tool';
 
 const authors = [{
     value: '马成功',
@@ -46,7 +48,24 @@ class RegistrationForm extends React.Component {
                     ...fieldValues,
                     'date-picker': fieldValues['date-picker'].format('YYYY-MM-DD')
                 }
-                console.log('Received values of form: ', values);
+                const newValues = {
+                    ...values,
+                    'author_id':values['author_id'][0],
+                    'course_author':values['course_author'][0],
+                    'open_date':values['date-picker']
+                }
+                fetch(BACK.base_ip+'/addcourse/add_course_section',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Accept':'application/json'
+                    },
+                    body:JSON.stringify(newValues)
+                }).then((response)=> response.json()).then((resText)=>{
+                    console.log(resText);
+                }).catch((err)=>{
+                    console.log(err);
+                })
             }
         });
     }
@@ -226,7 +245,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="section_voice"
                 >
-                    <UploadFile/>
+                    <UploadFile uploadUrl="/upload/file"/>
                 </FormItem>
 
 
@@ -235,9 +254,9 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="section_list_img"
                 >
-                    <Upload {...{...picProps , action:'http://192.168.1.37:3300/upload/img/list'}}>
+                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/list'}}>
                         <Button>
-                            <Icon type="upload" /> upload
+                            <Icon type="upload"/> upload
                         </Button>
                     </Upload>
                 </FormItem>
@@ -248,7 +267,20 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="section_detail_img"
                 >
-                    <Upload {...{...picProps , action:'http://192.168.1.37:3300/upload/img/detail'}}>
+                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/detail'}}>
+                        <Button>
+                            <Icon type="upload" /> upload
+                        </Button>
+                    </Upload>
+                </FormItem>
+
+
+
+                <FormItem
+                    {...formItemLayout}
+                    label="section_content_detail_img"
+                >
+                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/course_detail'}}>
                         <Button>
                             <Icon type="upload" /> upload
                         </Button>

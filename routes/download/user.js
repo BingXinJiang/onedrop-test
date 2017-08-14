@@ -9,14 +9,7 @@ var async = require('async');
 var fs = require('fs');
 var  path = require('path');
 
-/**获取user表的user关键信息*/
-router.get('/',function (req,res,next) {
-    //通过mysql导出Excel表
-
-    var timestamp = new Date().getTime();
-    var filename = '/tmp/user'+timestamp+'.xls';
-    var query_sql = "select user_id,nickname,sex,headimgurl,be_date into outfile '"+filename+"' CHARACTER SET gbk from user";
-
+function getAndDown(query_sql,filename,filepath,res) {
     async.waterfall([
         function (callback) {
             query(query_sql,function (qerr,valls,fields) {
@@ -29,9 +22,6 @@ router.get('/',function (req,res,next) {
         },
         function (result1,callback) {
             //下载文件到本地
-            var filename = 'user.xls';
-            var filepath = '/tmp/'+filename;
-
             var stats = fs.statSync(filepath);
             if(stats.isFile()){
                 res.set({
@@ -39,7 +29,7 @@ router.get('/',function (req,res,next) {
                     'Content-Disposition': 'attachment; filename='+filename,
                     'Content-Length': stats.size
                 });
-                fs.createReadStream(filepath).pipe(res)
+                fs.createReadStream(filepath).pipe(res);
             }else{
                 callback('404');
             }
@@ -56,8 +46,54 @@ router.get('/',function (req,res,next) {
             res.json(response);
         }
     })
+}
 
+/**获取user表的user关键信息*/
+router.get('/user',function (req,res,next) {
+    //通过mysql导出Excel表
 
+    var timestamp = new Date().getTime();
+    var filename = 'user'+timestamp+'.xls';
+    var filepath = '/tmp/'+filename;
+    var query_sql = "select user_id,nickname,sex,headimgurl,be_date into outfile '"+filepath+"' CHARACTER SET gbk from user";
+
+    filename = 'user1502166424506.xls'; //test
+    filepath = '/tmp/'+filename;
+
+    getAndDown(query_sql,filename,filepath,res);
+
+});
+
+/**获取user_value表的用户积分值和能量值*/
+router.get('/fraction',function (req,res,next) {
+    var timestamp = new Date().getTime();
+    var filename = 'fraction'+timestamp+'.xls';
+    var filepath = '/tmp/'+filename;
+    var query_sql = "select user_id,fraction,leader_value,update_time into outfile '"+filepath+"' CHARACTER SET gbk from user_value";
+
+    filename = 'fraction1502166424525.xls'; //test
+    filepath = '/tmp/'+filename;
+
+    getAndDown(query_sql,filename,filepath,res);
 })
+
+
+/**获取用户信息和积分能量值的组合表*/
+router.get('/user_value',function (req,res,next) {
+    var timestamp = new Date().getTime();
+    var filename = 'user_value'+timestamp+'.xls';
+    var filepath = '/tmp/'+filename;
+
+    var query_sql = "select a.user_id,a.nickname,b.fraction,b.leader_value into outfile '"+filepath+"' CHARACTER SET gbk from " +
+        "(select * from user) as a left join " +
+        "(select * from user_value) as b on a.user_id=b.user_id";
+
+    filename = 'user_value1502166424533.xls'; //test
+    filepath = '/tmp/'+filename;
+
+    getAndDown(query_sql,filename,filepath,res);
+})
+
+
 
 module.exports = router;

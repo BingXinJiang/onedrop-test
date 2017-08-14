@@ -9,6 +9,8 @@ var util = require('util');
 
 var formidable = require('formidable');
 
+var BasePath = '/tmp/dropresources/resources';
+
 function uploadFiles(req,res,path) {
     //创建表单上传
     var form = new formidable.IncomingForm();
@@ -21,7 +23,7 @@ function uploadFiles(req,res,path) {
 
     form.on('fileBegin',function (err,file) {
         // console.log('err:',err);
-        file.path = path.split('./')[1] + file.name;
+        file.path = path + file.name;
     })
 
     form.parse(req, function(err, fields, files) {
@@ -33,32 +35,38 @@ function uploadFiles(req,res,path) {
 
 router.post('/file', function(req, res, next) {
 
-    uploadFiles(req,res,'./client/public/weixin/voices/sections/');
+    uploadFiles(req,res,BasePath+'/voices/receive/sections/');
 
 });
 
 router.post('/img/list', function(req, res, next) {
 
-    uploadFiles(req,res,'./client/public/weixin/images/courses/');
+    uploadFiles(req,res,BasePath+'/images/receive/images/courses/');
 
 });
 
 router.post('/img/detail', function(req, res, next) {
 
-    uploadFiles(req,res,'./client/public/weixin/images/courses/intro/');
+    uploadFiles(req,res,BasePath+'/images/receive/images/courses/intro/');
 
 });
 
 router.post('/teacher/head', function(req, res, next) {
 
-    uploadFiles(req,res,'./client/public/weixin/images/teacher/head/');
+    uploadFiles(req,res,BasePath+'/images/receive/images/teacher/head/');
 
 });
 
 router.post('/teacher/photo', function(req, res, next) {
 
-    uploadFiles(req,res,'./client/public/weixin/images/teacher/photo/');
+    uploadFiles(req,res,BasePath+'/images/receive/images/teacher/photo/');
 
 });
+
+router.post('/img/course_detail',function (req,res,next) {
+
+    uploadFiles(req,res,BasePath+'/images/receive/images/courses/detail/');
+
+})
 
 module.exports = router;

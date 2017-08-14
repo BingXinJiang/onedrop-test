@@ -10,6 +10,7 @@ var index = require('./routes/index');
 var weixin = require('./routes/weixin/index');
 var upload = require('./routes/upload/upload');
 var downUser = require('./routes/download/user');
+var addCourse = require('./routes/course/AddCourseSection');
 
 
 var app = express();
@@ -31,6 +32,7 @@ app.use('/', index);
 app.use('/main', weixin);
 app.use('/upload',upload);
 app.use('/userdown',downUser);
+app.use('/addcourse',addCourse);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

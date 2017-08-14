@@ -5,6 +5,7 @@
 import React from 'react';
 import { Upload, Button, Icon, message } from 'antd';
 import reqwest from 'reqwest';
+import BACK from '../const/BackControll';
 
 export default class UploadFile extends React.Component{
     constructor(props){
@@ -27,7 +28,7 @@ export default class UploadFile extends React.Component{
         });
 
         reqwest({
-            url: 'http://192.168.1.37:3300/upload/file',
+            url: BACK.base_ip+this.props.uploadUrl,
             method: 'post',
             processData: false,
             data: formData,
@@ -50,7 +51,7 @@ export default class UploadFile extends React.Component{
     render(){
         const { uploading } = this.state;
         const props = {
-            action: 'http://192.168.1.37:3300/upload/file',
+            action: BACK.base_ip+this.props.uploadUrl,
             onRemove: (file) => {
                 this.setState(({ fileList }) => {
                     const index = fileList.indexOf(file);
