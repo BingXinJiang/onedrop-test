@@ -57,8 +57,11 @@ router.get('/user',function (req,res,next) {
     var filepath = '/tmp/'+filename;
     var query_sql = "select user_id,nickname,sex,headimgurl,be_date into outfile '"+filepath+"' CHARACTER SET gbk from user";
 
-    filename = 'user1502166424506.xls'; //test
-    filepath = '/tmp/'+filename;
+    if(ONE_DROP_ENV === 'local_test'){
+        filename = 'user1504513297780.xls'; //test
+
+        filepath = '/vartest/user_value/'+filename;
+    }
 
     getAndDown(query_sql,filename,filepath,res);
 
@@ -71,8 +74,10 @@ router.get('/fraction',function (req,res,next) {
     var filepath = '/tmp/'+filename;
     var query_sql = "select user_id,fraction,leader_value,update_time into outfile '"+filepath+"' CHARACTER SET gbk from user_value";
 
-    filename = 'fraction1502166424525.xls'; //test
-    filepath = '/tmp/'+filename;
+    if(ONE_DROP_ENV === 'local_test'){
+        filename = 'fraction1504513308742.xls'; //test
+        filepath = '/vartest/user_value/'+filename;
+    }
 
     getAndDown(query_sql,filename,filepath,res);
 })
@@ -88,8 +93,10 @@ router.get('/user_value',function (req,res,next) {
         "(select * from user) as a left join " +
         "(select * from user_value) as b on a.user_id=b.user_id";
 
-    filename = 'user_value1502166424533.xls'; //test
-    filepath = '/tmp/'+filename;
+    if(ONE_DROP_ENV === 'local_test'){
+        filename = 'user_value1504513322267.xls'; //test
+        filepath = '/vartest/user_value/'+filename;
+    }
 
     getAndDown(query_sql,filename,filepath,res);
 })

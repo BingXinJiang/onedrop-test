@@ -21,7 +21,6 @@ class downData {
     @observable
     title = '';
 
-
     constructor(title,downUrl){
         this.downUrl = downUrl;
         this.title = title;

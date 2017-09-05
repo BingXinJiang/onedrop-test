@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var query = require('../../db/DB');
 var async = require('async');
+var CONST = require('../ConstConfig');
 
 router.post('/add_course_section',function (req,res,next) {
 
@@ -14,7 +15,7 @@ router.post('/add_course_section',function (req,res,next) {
     var section_name = req.body.section_name;
 
     //section_voice 需根据section_id和course_id生成路径
-    var section_voice = '/sections/section_'+course_id+'_1_'+section_id+'.mp3';
+    var section_voice = CONST.ResBaseUrl + '/sections/section_'+course_id+'_1_'+section_id+'.mp3';
 
     var section_des = req.body.section_des;
     var course_author = req.body.course_author;
@@ -27,7 +28,11 @@ router.post('/add_course_section',function (req,res,next) {
     var section_intro = req.body.setion_intro;
     var label_des = req.body.label_des;
 
-    //首先根据section_id查询数据库中最大的section_id,判断该section_id是否是最大的section_id+1
+    var Course = {
+
+    }
+
+    //首先根据section_id查询数据库中最大的section_id
     //如果是正确插入，如果不是，提示按照正确的课程顺序插入
 
     var check_section_id_sql = "SELECT MAX(section_id)max_section_id FROM course_section";
@@ -43,18 +48,18 @@ router.post('/add_course_section',function (req,res,next) {
                     if(valls.length<=0){
                         callback(null,1);
                     }else{
-                        var newSectionId = valls[0].section_id+1;
+                        var newSectionId = valls[0].section_id;
                         callback(null,newSectionId);
                     }
                 }
             })
         },
         function (result,callback) {
-            if(section_id === result){
+            if(section_id > result){
                 //课程标号正确，插入课程
                 console.log('---------------------');
             }else{
-                callback('请按照正确的顺序输入课程唯一标号setion_id！');
+                callback('请按照正确课程唯一标号setion_id！');
             }
         }
     ],function (err,result) {

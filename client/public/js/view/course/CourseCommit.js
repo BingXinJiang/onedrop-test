@@ -37,9 +37,14 @@ const picProps = {
 };
 
 class RegistrationForm extends React.Component {
-    state = {
-        confirmDirty: false,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            confirmDirty: false,
+            authors:[],
+            authorIDs:[]
+        }
+    }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, fieldValues) => {
@@ -68,6 +73,39 @@ class RegistrationForm extends React.Component {
                 })
             }
         });
+    }
+
+    componentDidMount(){
+        fetch(BACK.base_ip+'/teacher',{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                if(res.status === 1){
+                    let teachers = res.data;
+                    let authors = [];
+                    let authorsIDs = [];
+                    teachers.map((ta,idx)=>{
+                        let t1={};
+                        let t2={};
+                        t1.value = ta.teacher_name;
+                        t1.label = ta.teacher_name;
+                        t2.value = ta.teacher_id;
+                        t2.label = ta.teacher_id + '----' + ta.teacher_name;
+                        authors.push(t1);
+                        authorsIDs.push(t2);
+                    })
+                    this.setState({
+                        authors:authors,
+                        authorIDs:authorsIDs
+                    })
+                }else{
+                    alert('数据请求错误！');
+                }
+            }).catch((err)=>{alert(err)})
     }
 
     render() {
@@ -208,10 +246,10 @@ class RegistrationForm extends React.Component {
                     label="course_author"
                 >
                     {getFieldDecorator('course_author', {
-                        initialValue: ['马成功'],
+                        initialValue: ['邰宏伟'],
                         rules: [{ type: 'array', required: true, message: 'Please select course_author!' }],
                     })(
-                        <Cascader options={authors} />
+                        <Cascader options={this.state.authors} />
                     )}
                 </FormItem>
 
@@ -232,10 +270,10 @@ class RegistrationForm extends React.Component {
                     label="author_id"
                 >
                     {getFieldDecorator('author_id', {
-                        initialValue: ['01--马成功'],
+                        initialValue: ['1----邰宏伟'],
                         rules: [{ type: 'array', required: true, message: 'Please select course_author!' }],
                     })(
-                        <Cascader options={authorIDs} />
+                        <Cascader options={this.state.authorIDs} />
                     )}
                 </FormItem>
 

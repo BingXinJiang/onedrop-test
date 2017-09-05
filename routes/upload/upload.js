@@ -6,10 +6,11 @@ var express = require('express');
 var router = express.Router();
 var query = require('../../db/DB');
 var util = require('util');
+var CONST = require('../ConstConfig');
 
 var formidable = require('formidable');
 
-var BasePath = '/tmp/dropresources/resources';
+var BasePath = CONST.FilePath;
 
 function uploadFiles(req,res,path) {
     //创建表单上传

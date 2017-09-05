@@ -4,7 +4,7 @@ var congig = {
 	host: '119.23.24.122',
 	user: 'root',   
 	password: 'JSong1213556',
-	database:'test',
+	database:global.ONE_DROP_ENV === 'production' ? 'test3' : 'test',
 	port: 3306  
 }
 
