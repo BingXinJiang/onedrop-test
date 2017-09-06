@@ -59,6 +59,7 @@ class RegistrationForm extends React.Component {
                     'course_author':values['course_author'][0],
                     'open_date':values['date-picker']
                 }
+                console.log('newValues:',newValues);
                 fetch(BACK.base_ip+'/addcourse/add_course_section',{
                     method:'POST',
                     headers:{
@@ -143,7 +144,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="course_id"
+                    label="课程ID(course_id)"
                     hasFeedback
                 >
                     {getFieldDecorator('course_id', {
@@ -162,8 +163,8 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          course_title&nbsp;
-                                        <Tooltip title="请输入课程的总标题">
+                          课程标题(course_title)&nbsp;
+                                        <Tooltip title="请输入课程的标题">
                             <Icon type="question-circle-o" />
                           </Tooltip>
                         </span>
@@ -180,7 +181,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="section_id"
+                    label="章节ID(section_id)"
                     hasFeedback
                 >
                     {getFieldDecorator('section_id', {
@@ -199,8 +200,8 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          section_name&nbsp;
-                            <Tooltip title="请输入小节标题">
+                          章节标题(section_name)&nbsp;
+                            <Tooltip title="请输入章节标题">
                             <Icon type="question-circle-o" />
                           </Tooltip>
                         </span>
@@ -220,7 +221,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          section_des&nbsp;
+                          章节详细内容(section_des)&nbsp;
                             <Tooltip title="请输入小节详细内容json">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -228,14 +229,12 @@ class RegistrationForm extends React.Component {
                     )}
                     hasFeedback
                 >
-                    <Mention
-                        style={{ width: '100%', height: 100 }}
-                        onChange={(editorState)=>{
-                            // console.log(toString(editorState));
-                        }}
-                        suggestions={[]}
-                        multiLines
-                    />
+
+                    {getFieldDecorator('section_des', {
+                        rules: [{ required: true, message: 'Please input section_des!', whitespace: true }],
+                    })(
+                        <textarea style={{width:'100%',height:'120px',paddingLeft:'10px',paddingRight:'10px'}}/>
+                    )}
 
                 </FormItem>
 
@@ -243,7 +242,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="course_author"
+                    label="章节作者(course_author)"
                 >
                     {getFieldDecorator('course_author', {
                         initialValue: ['邰宏伟'],
@@ -256,7 +255,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="open_date"
+                    label="章节公开日期(open_date)"
                 >
                     {getFieldDecorator('date-picker', config)(
                         <DatePicker />
@@ -264,10 +263,9 @@ class RegistrationForm extends React.Component {
                 </FormItem>
 
 
-
                 <FormItem
                     {...formItemLayout}
-                    label="author_id"
+                    label="章节作者ID(author_id)"
                 >
                     {getFieldDecorator('author_id', {
                         initialValue: ['1----邰宏伟'],
@@ -281,7 +279,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="section_voice"
+                    label="章节语音(section_voice)"
                 >
                     <UploadFile uploadUrl="/upload/file"/>
                 </FormItem>
@@ -290,7 +288,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="section_list_img"
+                    label="章节列表图(section_list_img)"
                 >
                     <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/list'}}>
                         <Button>
@@ -303,7 +301,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="section_detail_img"
+                    label="章节详情页头图(section_detail_img)"
                 >
                     <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/detail'}}>
                         <Button>
@@ -316,7 +314,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="section_content_detail_img"
+                    label="章节文章内部图(section_content_detail_img)"
                 >
                     <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/course_detail'}}>
                         <Button>
@@ -331,7 +329,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          section_intro&nbsp;
+                          章节简介(section_intro)&nbsp;
                             <Tooltip title="请输入小节简介">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -339,14 +337,13 @@ class RegistrationForm extends React.Component {
                     )}
                     hasFeedback
                 >
-                    <Mention
-                        style={{ width: '100%', height: 100 }}
-                        onChange={(editorState)=>{
-                            // console.log(toString(editorState));
-                        }}
-                        suggestions={[]}
-                        multiLines
-                    />
+
+                    {getFieldDecorator('section_intro', {
+                        rules: [{ required: true, message: 'Please input section_intro!', whitespace: true }],
+                    })(
+                        <textarea style={{width:'100%',height:'80px',paddingLeft:'10px',paddingRight:'10px'}}/>
+                    )}
+
 
                 </FormItem>
 
@@ -356,7 +353,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          label_des&nbsp;
+                          章节标签描述(label_des)&nbsp;
                             <Tooltip title="请输入小节标签">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -373,7 +370,7 @@ class RegistrationForm extends React.Component {
 
 
                 <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
+                    <Button type="primary" htmlType="submit">增加课程</Button>
                 </FormItem>
             </Form>
         );

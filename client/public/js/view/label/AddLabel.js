@@ -3,18 +3,9 @@
  */
 import React from 'react';
 import { Form, Input, Tooltip, Icon, Button,Mention,
-    InputNumber,Upload
 } from 'antd';
 const FormItem = Form.Item;
-const { toString } = Mention;
-
-const picList = [];
-
-const picProps = {
-    action: '//jsonplaceholder.typicode.com/posts/',
-    listType: 'picture',
-    defaultFileList: [...picList]
-};
+import BACK from '../../const/BackControll';
 
 class RegistrationForm extends React.Component {
     state = {
@@ -27,7 +18,21 @@ class RegistrationForm extends React.Component {
                 const values = {
                     ...fieldValues
                 }
-                console.log('Received values of form: ', values);
+                fetch(BACK.base_ip+'/add/label',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Accept':'application/json'
+                    },
+                    body:JSON.stringify(values)
+                }).then((res)=>res.json())
+                    .then((resText)=>{
+                        if(resText.status === 1){
+                            alert(resText.data.msg);
+                        }else{
+                            alert(JSON.stringify(resText.data));
+                        }
+                    })
             }
         });
     }
@@ -64,28 +69,9 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="label_id"
-                    hasFeedback
-                >
-                    {getFieldDecorator('label_id', {
-                        rules: [{
-                            type: 'number', message: 'The input is not valid number!',
-                        }, {
-                            required: true, message: 'Please input a number!',
-                        }],
-                    })(
-                        <InputNumber/>
-                    )}
-                </FormItem>
-
-
-
-
-                <FormItem
-                    {...formItemLayout}
                     label={(
                         <span>
-                          label_name&nbsp;
+                          标签名称(label_name)&nbsp;
                             <Tooltip title="请输入课程标签">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -100,12 +86,8 @@ class RegistrationForm extends React.Component {
                     )}
                 </FormItem>
 
-
-
-
-
                 <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
+                    <Button type="primary" htmlType="submit">增加课程标签</Button>
                 </FormItem>
             </Form>
         );
