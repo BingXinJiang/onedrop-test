@@ -12,7 +12,6 @@ var upload = require('./routes/upload/upload');
 var downUser = require('./routes/download/user');
 var addCourse = require('./routes/course/AddCourseSection');
 var add = require('./routes/course/Add');
-var teacher = require('./routes/teacher/Teacher');
 var get = require('./routes/getall/getall');
 
 
@@ -37,7 +36,6 @@ app.use('/upload',upload);
 app.use('/userdown',downUser);
 app.use('/addcourse',addCourse);
 app.use('/add',add);
-app.use('/teacher',teacher);
 app.use('/get',get);
 
 // catch 404 and forward to error handler

@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Table, Input, Popconfirm } from 'antd';
+import BACK from '../../const/BackControll';
 
 class EditableCell extends React.Component {
     state = {
@@ -76,12 +77,12 @@ class EditableTable extends React.Component {
         },{
             title: 'comment',
             dataIndex: 'comment',
-            width: '40%',
+            width: '38%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'comment', text),
         },{
             title: 'datetime',
             dataIndex: 'datetime',
-            width: '12%',
+            width: '10%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'datetime', text),
         },{
             title: 'is_checked',
@@ -112,29 +113,9 @@ class EditableTable extends React.Component {
             },
         }];
         this.state = {
-            data: [{
-                key: '0',
-                comment_id: {
-                    value: '1',
-                },
-                nickname: {
-                    value: '风居住的街道',
-                },
-                section_name: {
-                    value: '逻辑思维的小组制',
-                },
-                comment: {
-                    value: '从逻辑思维的小组制，学到了很多东西！从逻辑思维的小组制，学到了很多东西！从逻辑思维的小组制，学到了很多东西！从逻辑思维的小组制，学到了很多东西！从逻辑思维的小组制，学到了很多东西！从逻辑思维的小组制，学到了很多东西！从逻辑思维的小组制，学到了很多东西！',
-                },
-                datetime: {
-                    value: '2017-7-28 12:34:15',
-                },
-                is_checked: {
-                    editable: false,
-                    value: '0',
-                },
-            }],
+            comments: [],
         };
+        this.getData = this.getData.bind(this);
     }
     renderColumns(data, index, key, text) {
         const { editable, status } = data[index][key];
@@ -178,15 +159,65 @@ class EditableTable extends React.Component {
             });
         });
     }
+
+    getData(page){
+        fetch(BACK.base_ip+'/get/comments?page='+page,{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        }).then((res)=>res.json()).then((resText)=>{
+            if(resText.status === 1){
+                var comments = resText.data;
+                var newComments = [];
+                comments.map((co,idx)=>{
+                    var el = {
+                        key: idx+'',
+                        comment_id: {
+                            value: co.comment_id+'',
+                        },
+                        nickname: {
+                            value: co.nickname,
+                        },
+                        section_name: {
+                            value: co.section_name,
+                        },
+                        comment: {
+                            value: co.comment,
+                        },
+                        datetime: {
+                            value: co.datetime,
+                        },
+                        is_checked: {
+                            editable: false,
+                            value: co.is_checked+'',
+                        }
+                    }
+                    newComments.push(el);
+                })
+                this.setState({
+                    comments:newComments
+                })
+            }else{
+                alert(JSON.stringify(resText.data));
+            }
+        })
+    }
+    componentDidMount(){
+        this.getData(1);
+    }
+
     render() {
-        const { data } = this.state;
-        const dataSource = data.map((item) => {
+        const { comments } = this.state;
+        const dataSource = comments.map((item) => {
             const obj = {};
             Object.keys(item).forEach((key) => {
                 obj[key] = key === 'key' ? item[key] : item[key].value;
             });
             return obj;
         });
+        console.log('dataSource:',dataSource);
         const columns = this.columns;
         return <Table bordered dataSource={dataSource} columns={columns} />;
     }

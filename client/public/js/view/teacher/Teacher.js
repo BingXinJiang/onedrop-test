@@ -3,60 +3,76 @@
  */
 import React from 'react';
 import { Table } from 'antd';
+import BACK from '../../const/BackControll';
 
 const columns = [
     {
-        title: 'teacher_id',
+        title: '老师ID',
         dataIndex: 'teacher_id',
         key: 'teacher_id'
     },
     {
-        title: 'teacher_name',
+        title: '老师名字',
         dataIndex: 'teacher_name',
         key: 'teacher_name',
     },
     {
-        title: 'teacher_position',
+        title: '老师职位',
         dataIndex: 'teacher_position',
         key: 'teacher_position',
     },
     {
-        title: 'teacher_des',
+        title: '老师介绍',
         dataIndex: 'teacher_des',
         key: 'teacher_des',
     },
     {
-        title: 'teacher_head',
+        title: '老师头像',
         dataIndex: 'teacher_head',
         key: 'teacher_head',
-        render: imgUrl => <img style={{width:'60px',height:'60px'}} src={imgUrl}/>
+        render: imgUrl => <img style={{width:'60px',height:'60px'}} src={BACK.res_ip+imgUrl}/>
     },
     {
-        title: 'teacher_img',
+        title: '老师照片',
         dataIndex: 'teacher_img',
         key: 'teacher_img',
-        render: imgUrl => <img style={{width:'60px',height:'60px'}} src={imgUrl}/>
+        render: imgUrl => <img style={{width:'60px',height:'60px'}} src={BACK.res_ip+imgUrl}/>
     }
 ];
-
-const data = [{
-    key: '1',
-    teacher_id: '1',
-    teacher_name: '马成功',
-    teacher_position: '乐视文化培训经理',
-    teacher_des:'乐视文化培训经理',
-    teacher_head:'http://imglf0.nosdn.127.net/img/NFk3V1AwUXAxRTlOTFNHWEkrWHdmUmxkM3VJV2UxcXNKY1hOeWI3TmJiaDMxSFVOb1VzQ09RPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg',
-    teacher_img:'http://imglf1.nosdn.127.net/img/R0NsVFp1Y3d6K0ErOEZzMVk4a2h1emVxOExkbncvMFVLdHo4N3FrLzlvU3BOM0h5aCtEWld3PT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg'
-}];
 
 export default class Teacher extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            teachers:[]
+        }
+    }
+    componentDidMount(){
+        fetch(BACK.base_ip+'/get/teachers',{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        }).then((res)=>res.json()).then((resText)=>{
+            if(resText.status === 1){
+                var teachers = [];
+                resText.data.map((te,idx)=>{
+                    te.key = (idx+1) + '';
+                    teachers.push(te);
+                })
+                this.setState({
+                    teachers:teachers
+                })
+            }else{
+                alert(JSON.stringify(resText.data));
+            }
+        })
     }
     render(){
         return(
             <div>
-                <Table columns={columns} dataSource={data} />
+                <Table columns={columns} dataSource={this.state.teachers} />
             </div>
         )
     }

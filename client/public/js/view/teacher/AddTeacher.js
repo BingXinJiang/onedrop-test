@@ -5,6 +5,7 @@ import React from 'react';
 import { Form, Input, Tooltip, Icon, Button,Mention,
     InputNumber,Upload
 } from 'antd';
+import BACK from '../../const/BackControll';
 const FormItem = Form.Item;
 const { toString } = Mention;
 
@@ -32,6 +33,10 @@ class RegistrationForm extends React.Component {
         });
     }
 
+    componentDidMount(){
+        console.log('---------------');
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
 
@@ -56,10 +61,6 @@ class RegistrationForm extends React.Component {
                     offset: 6,
                 },
             },
-        };
-
-        const config = {
-            rules: [{ type: 'object', required: true, message: 'Please select time!' }],
         };
 
         return (
@@ -102,7 +103,6 @@ class RegistrationForm extends React.Component {
                 </FormItem>
 
 
-
                 <FormItem
                     {...formItemLayout}
                     label={(
@@ -123,14 +123,12 @@ class RegistrationForm extends React.Component {
                 </FormItem>
 
 
-
-
                 <FormItem
                     {...formItemLayout}
                     label={(
                         <span>
                           teacher_des&nbsp;
-                            <Tooltip title="请输入小节详细内容json">
+                            <Tooltip title="请输入老师介绍">
                             <Icon type="question-circle-o" />
                           </Tooltip>
                         </span>
@@ -155,7 +153,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="teacher_head"
                 >
-                    <Upload {...{...picProps , action:'http://192.168.1.37:3300/upload/teacher/head'}}>
+                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/teacher/head'}}>
                         <Button>
                             <Icon type="upload" /> upload
                         </Button>
@@ -168,7 +166,12 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="teacher_img"
                 >
-                    <Upload {...{...picProps , action:'http://192.168.1.37:3300/upload/teacher/photo'}}>
+                    <Upload  {...{...picProps , action:BACK.base_ip+'/upload/teacher/photo'}}
+                             onSuccess = {(res)=>{
+                                 console.log(JSON.stringify(res));
+                                 console.log('文件上传成功')
+                             }}
+                    >
                         <Button>
                             <Icon type="upload" /> upload
                         </Button>

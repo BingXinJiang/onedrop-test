@@ -176,5 +176,21 @@ router.post('/label/section',function (req,res,next) {
     })
 })
 
+/**
+ * 添加老师
+ * 参数：  teacher_name   teacher_position  teacher_des
+ * */
+router.post('/teacher',function (req,res,next) {
+
+    var teacher_name = req.body.teacher_name;
+    var teacher_position = req.body.teacher_position;
+    var teacher_des = req.body.teacher_des;
+
+    var teacher_head = '';
+    var teacher_img = '';
+
+
+
+})
 
 module.exports = router;

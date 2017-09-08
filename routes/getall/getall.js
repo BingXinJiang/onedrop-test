@@ -65,10 +65,12 @@ router.get('/comments',function (req,res,next) {
         page = 1;
     }
 
-    var query_sql = "select A.comment_id,B.nickname,A.section_id,A.comment,A.datetime,A.is_checked from " +
-        "(select comment_id,user_id,section_id,comment,datetime,is_checked from comment order by datetime desc limit "+(page-1)*10+",10)as A " +
+    var query_sql = "select A.comment_id,B.nickname,C.section_name,A.comment,A.datetime,A.is_checked from " +
+        "(select comment_id,user_id,section_id,comment,datetime,is_checked from comment order by datetime desc )as A " +
         "left join " +
-        "(select user_id,nickname from user)as B on A.user_id=B.user_id";
+        "(select user_id,nickname from user)as B on A.user_id=B.user_id " +
+        "left join " +
+        "(select section_id,section_name from course_section)as C on A.section_id=C.section_id";
     
     // console.log('query_sql:',query_sql);
     
@@ -196,7 +198,7 @@ router.get('/questions',function (req,res,next) {
  * */
 router.get('/answer',function (req,res,next) {
 
-    // var page = 
+
 
 })
 
