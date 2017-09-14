@@ -4,6 +4,7 @@
 import React from 'react';
 import { Table, Input, Popconfirm } from 'antd';
 import BACK from '../../const/BackControll';
+import Tool from '../../Tool/Tool';
 
 class EditableCell extends React.Component {
     state = {
@@ -60,37 +61,37 @@ class EditableTable extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            title: 'comment_id',
+            title: '评论ID',
             dataIndex: 'comment_id',
             width: '10%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'comment_id', text),
         }, {
-            title: 'nickname',
+            title: '评论人',
             dataIndex: 'nickname',
             width: '10%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'nickname', text),
         }, {
-            title: 'section_name',
+            title: '文章标题',
             dataIndex: 'section_name',
             width: '15%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'section_name', text),
-        },{
-            title: 'comment',
+        }, {
+            title: '评论内容',
             dataIndex: 'comment',
             width: '38%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'comment', text),
-        },{
-            title: 'datetime',
+        }, {
+            title: '评论日期',
             dataIndex: 'datetime',
             width: '10%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'datetime', text),
-        },{
-            title: 'is_checked',
+        }, {
+            title: '审核',
             dataIndex: 'is_checked',
             width: '10%',
             render: (text, record, index) => this.renderColumns(this.state.data, index, 'is_checked', text),
         }, {
-            title: 'operation',
+            title: '编辑',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 const { editable } = this.state.data[index].is_checked;
@@ -99,11 +100,12 @@ class EditableTable extends React.Component {
                         {
                             editable ?
                                 <span>
-                                  <a onClick={() => this.editDone(index, 'save')}>Save</a>
+                                  <a onClick={() => this.editDone(index, 'save')}>确定</a>
                                   <Popconfirm title="Sure to cancel?" onConfirm={() => this.editDone(index, 'cancel')}>
-                                    <a>Cancel</a>
+                                    <a>取消</a>
                                   </Popconfirm>
-                                </span> :
+                                </span>
+                                :
                                 <span>
                                   <a onClick={() => this.edit(index)}>Edit</a>
                                 </span>
@@ -113,9 +115,8 @@ class EditableTable extends React.Component {
             },
         }];
         this.state = {
-            comments: [],
+            data: []
         };
-        this.getData = this.getData.bind(this);
     }
     renderColumns(data, index, key, text) {
         const { editable, status } = data[index][key];
@@ -141,16 +142,36 @@ class EditableTable extends React.Component {
                 data[index][item].editable = true;
             }
         });
+
+        console.log('----data[index]:',data[index]);
+
+        console.log('----data[index].is_checked:',data[index].is_checked);
+
+        console.log('----data[index].is_checked.value:',data[index].is_checked.value);
         this.setState({ data });
     }
     editDone(index, type) {
         const { data } = this.state;
+
+        // console.log('data[index]:',data[index]);
+        //
+        // console.log('data[index].is_checked:',data[index].is_checked);
+        //
+        // console.log('data[index].is_checked.value:',data[index].is_checked.value);
+
         Object.keys(data[index]).forEach((item) => {
             if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
                 data[index][item].editable = false;
                 data[index][item].status = type;
             }
         });
+
+        console.log('data[index]:',data[index]);
+
+        console.log('data[index].is_checked:',data[index].is_checked);
+
+        console.log('data[index].is_checked.value:',data[index].is_checked.value);
+
         this.setState({ data }, () => {
             Object.keys(data[index]).forEach((item) => {
                 if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
@@ -158,8 +179,10 @@ class EditableTable extends React.Component {
                 }
             });
         });
+        // console.log('data.comment_id:',data[index].comment_id.value);
+        // console.log('data.is_checked:',data[index].is_checked.value);
+        // console.log('type:',type);
     }
-
     getData(page){
         fetch(BACK.base_ip+'/get/comments?page='+page,{
             method:'GET',
@@ -187,7 +210,7 @@ class EditableTable extends React.Component {
                             value: co.comment,
                         },
                         datetime: {
-                            value: co.datetime,
+                            value: Tool.dateFormat(co.datetime),
                         },
                         is_checked: {
                             editable: false,
@@ -197,7 +220,7 @@ class EditableTable extends React.Component {
                     newComments.push(el);
                 })
                 this.setState({
-                    comments:newComments
+                    data:newComments
                 })
             }else{
                 alert(JSON.stringify(resText.data));
@@ -207,23 +230,19 @@ class EditableTable extends React.Component {
     componentDidMount(){
         this.getData(1);
     }
-
     render() {
-        const { comments } = this.state;
-        const dataSource = comments.map((item) => {
+        const { data } = this.state;
+        const dataSource = data.map((item) => {
             const obj = {};
             Object.keys(item).forEach((key) => {
                 obj[key] = key === 'key' ? item[key] : item[key].value;
             });
             return obj;
         });
-        console.log('dataSource:',dataSource);
         const columns = this.columns;
         return <Table bordered dataSource={dataSource} columns={columns} />;
     }
 }
-
-
 
 
 export default class Comment extends React.Component{

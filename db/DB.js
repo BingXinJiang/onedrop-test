@@ -1,10 +1,13 @@
 var mysql = require('mysql');
 
+
+
 var congig = {
 	host: '119.23.24.122',
 	user: 'root',   
 	password: 'JSong1213556',
-	database:global.ONE_DROP_ENV === 'production' ? 'test3' : 'test',
+	database:'test',
+    // database:'test3',
 	port: 3306  
 }
 

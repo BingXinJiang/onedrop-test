@@ -77,7 +77,7 @@ class RegistrationForm extends React.Component {
     }
 
     componentDidMount(){
-        fetch(BACK.base_ip+'/teacher',{
+        fetch(BACK.base_ip+'/get/teachers',{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
