@@ -3,8 +3,8 @@
  */
 
 
-global.ONE_DROP_ENV = 'local_test';
-// global.ONE_DROP_ENV = 'remote_test';
+// global.ONE_DROP_ENV = 'local_test';
+global.ONE_DROP_ENV = 'remote_test';
 // global.ONE_DROP_ENV = 'production';
 
 module.exports = {
