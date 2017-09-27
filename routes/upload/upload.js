@@ -70,4 +70,10 @@ router.post('/img/course_detail',function (req,res,next) {
 
 })
 
+router.post('/company/logo',function (req,res,next) {
+
+    uploadFiles(req,res,BasePath+'/images/receive/images/company/logo/');
+
+})
+
 module.exports = router;

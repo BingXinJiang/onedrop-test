@@ -193,13 +193,93 @@ router.get('/questions',function (req,res,next) {
 })
 
 /**
+ * 获取所有已添加企业信息：
+ * */
+
+router.get('/companys',function (req,res) {
+
+    var query_sql = "select company_id,company_name,company_log,company_intro,open_date from company";
+
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
+})
+
+/**
+ * 获取某个已添加的企业的详细信息：
+ * 参数：company_id
+ * */
+router.get('/company',function (req,res) {
+
+    var company_id  = req.query.company_id;
+    if(!company_id){
+        ERROR.responseBodyError(res,'参数错误!');
+        return;
+    }
+
+    var query_sql = "select company_id,company_name,company_intro,company_log,open_date from company where company_id="+company_id;
+
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else{
+            if(valls.length>0){
+                var response = {
+                    status:1,
+                    data:valls[0]
+                }
+                res.json(response);
+            }else{
+                ERROR.responseBodyError(res,'ID错误');
+            }
+
+        }
+    })
+})
+
+/**
+ * 获取某个已添加企业的所有项目：
+ * 参数：company_id
+ * */
+router.get('/projects',function (req,res) {
+
+    var company_id = req.query.company_id;
+    if(!company_id){
+        ERROR.responseBodyError(res,'参数错误!');
+        return;
+    }
+
+    var query_sql = "select project_id,project_name,project_intro,open_date,company_id from project where company_id="+company_id;
+
+    query(query_sql,function(qerr,valls,fields){
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
+
+})
+
+/**
  * 获取所有的回答
  * 参数 page   ?page=1
  * */
 router.get('/answer',function (req,res,next) {
 
-
-
+    
 })
 
 

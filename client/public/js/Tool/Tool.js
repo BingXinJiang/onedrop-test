@@ -55,6 +55,10 @@ var Tool = {
     dateFormat:function (date) {
         var dateFmt = new Date(date).pattern('yyyy-MM-dd HH:mm:ss');
         return dateFmt;
+    },
+    dateFormatYMD:function (date) {
+        var dateFmt = new Date(date).pattern('yyyy-MM-dd');
+        return dateFmt;
     }
 }
 
