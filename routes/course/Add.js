@@ -299,6 +299,65 @@ router.post('/project',function (req,res) {
 })
 
 /**
+ * 添加班级
+ * */
+router.post('/class',function (req,res) {
+    var class_name = req.body.class_name;
+    var class_logo = CONST.ResBaseUrl + '/images/class/logo/'+req.body.class_logo;
+    var class_intro = req.body.class_intro;
+    var class_num = req.body.class_num;
+    var open_date = req.body.open_date;
+    var project_id = req.body.project_id;
+    var access_code = Tool.genPwdClass();
+
+    var query_max = "select max(class_id)max from class where class_id != 999";
+    async.waterfall([
+        function (cb) {
+            query(query_max,function (qerr,valls,fields) {
+                if(qerr){
+                    cb(qerr);
+                }else{
+                    if(valls.length<1){
+                        cb(null,1);
+                    }else{
+                        var num = valls[0].max+1;
+                        if(num === 999){
+                            num = 1000;
+                        }
+                        cb(null,num);
+                    }
+                }
+            })
+        },
+        function (max,cb) {
+            var insert_sql = "insert into class(class_id,class_name,class_logo,class_intro,class_num,open_date,project_id,access_code) " +
+                "values("+max+",'"+class_name+"','"+class_logo+"','"+class_intro+"',"+class_num+",'"+open_date+"'" +
+                ","+project_id+",'"+access_code+"')";
+            query(insert_sql,function (qerr,valls,fields) {
+                if(qerr){
+                    cb(qerr);
+                }else{
+                    cb(null);
+                }
+            })
+        }
+    ],function (err,result) {
+        if(err){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:{
+                    msg:'success'
+                }
+            };
+            res.json(response);
+        }
+    })
+
+})
+
+/**
  * 添加老师
  * 参数：  teacher_name   teacher_position  teacher_des
  * */

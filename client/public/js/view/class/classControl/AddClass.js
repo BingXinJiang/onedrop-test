@@ -1,5 +1,5 @@
 /**
- * Created by jiangsong on 2017/9/26.
+ * Created by jiangsong on 2017/9/28.
  */
 import React from 'react';
 import CONFIG from '../../../const/BackConfig';
@@ -8,25 +8,27 @@ import { DatePicker } from 'antd';
 import Avator from '../views/Avator';
 
 
-export default class AddCompany extends React.Component{
+export default class AddClass extends React.Component{
     constructor(props){
         super(props);
         this.imgName = '';
         this.dateString = '';
     }
     static propTypes = {
-        company:React.PropTypes.object,
+        pclass:React.PropTypes.object,
         callback:React.PropTypes.func
     }
     handleCallback(isAdd){
         if(isAdd){
-            var companyName = this.refs['input_company_name'].value.trim();
-            var companyIntro = this.refs['textarea_company_intro'].value.trim();
-            var imgName = this.imgName;
-            var dateString = this.dateString;
+            let className = this.refs['input_class_name'].value.trim();
+            let classIntro = this.refs['textarea_class_intro'].value.trim();
+            let classNum = this.refs['input_class_num'].value.trim();
+            classNum = Number(classNum);
+            let imgName = this.imgName;
+            let dateString = this.dateString;
 
-            if(!companyName){
-                alert('公司名称必须填写！');
+            if(!className){
+                alert('班级名称必须填写！');
                 return;
             }
 
@@ -35,14 +37,20 @@ export default class AddCompany extends React.Component{
                 return;
             }
 
-            var company = {
-                company_name:companyName,
-                company_log:imgName,
-                company_intro:companyIntro,
+            if(!classNum || typeof classNum !== 'number' || classNum<=0){
+                alert('请输入正确的班级人数!');
+                return;
+            }
+
+            var pclass = {
+                class_name:className,
+                class_logo:imgName,
+                class_intro:classIntro,
+                class_num:classNum,
                 open_date:dateString
             }
 
-            this.props.callback('add',company);
+            this.props.callback('add',pclass);
         }else{
             this.props.callback('cancel');
         }
@@ -66,7 +74,7 @@ export default class AddCompany extends React.Component{
                         <div style={{display:'flex',flexDirection:'row'}}>
                             <div style={{
                                 width:'150px',display:'flex',justifyContent:'flex-end'
-                            }}><p style={{fontSize:CONFIG.wordSize}}>公司ID:&nbsp;&nbsp; </p></div>
+                            }}><p style={{fontSize:CONFIG.wordSize}}>班级ID:&nbsp;&nbsp; </p></div>
                             <div style={{
                                 display:'flex',flex:'1',justifyContent:'flex-start'
                             }}><input style={{width:'350px'}}/></div>
@@ -74,26 +82,34 @@ export default class AddCompany extends React.Component{
                         <div style={{display:'flex',flexDirection:'row',marginTop:'30px'}}>
                             <div style={{
                                 width:'150px',display:'flex',justifyContent:'flex-end'
-                            }}><p style={{fontSize:CONFIG.wordSize}}>公司名字:&nbsp;&nbsp; </p></div>
+                            }}><p style={{fontSize:CONFIG.wordSize}}>班级名称:&nbsp;&nbsp; </p></div>
                             <div style={{
                                 display:'flex',flex:'1',justifyContent:'flex-start'
-                            }}><input ref='input_company_name' style={{width:'350px'}}/></div>
+                            }}><input ref='input_class_name' style={{width:'350px'}}/></div>
                         </div>
                         <div style={{display:'flex',flexDirection:'row',marginTop:'30px'}}>
                             <div style={{
                                 width:'150px',display:'flex',justifyContent:'flex-end'
-                            }}><p style={{fontSize:CONFIG.wordSize}}>公司介绍:&nbsp;&nbsp; </p></div>
+                            }}><p style={{fontSize:CONFIG.wordSize}}>班级介绍:&nbsp;&nbsp; </p></div>
                             <div style={{
                                 display:'flex',flex:'1',justifyContent:'flex-start'
-                            }}><textarea ref="textarea_company_intro" style={{width:'350px',height:'60px'}}/></div>
+                            }}><textarea ref="textarea_class_intro" style={{width:'350px',height:'60px'}}/></div>
                         </div>
                         <div style={{display:'flex',flexDirection:'row',marginTop:'30px'}}>
                             <div style={{
                                 width:'150px',display:'flex',justifyContent:'flex-end'
-                            }}><p style={{fontSize:CONFIG.wordSize}}>公司Logo:&nbsp;&nbsp; </p></div>
+                            }}><p style={{fontSize:CONFIG.wordSize}}>班级人数:&nbsp;&nbsp; </p></div>
                             <div style={{
                                 display:'flex',flex:'1',justifyContent:'flex-start'
-                            }}><Avator callback={this.handleImage.bind(this)} upUrl={BACK.base_ip+'/upload/company/logo'}/></div>
+                            }}><input ref='input_class_num' style={{width:'350px'}}/></div>
+                        </div>
+                        <div style={{display:'flex',flexDirection:'row',marginTop:'30px'}}>
+                            <div style={{
+                                width:'150px',display:'flex',justifyContent:'flex-end'
+                            }}><p style={{fontSize:CONFIG.wordSize}}>班级Logo:&nbsp;&nbsp; </p></div>
+                            <div style={{
+                                display:'flex',flex:'1',justifyContent:'flex-start'
+                            }}><Avator callback={this.handleImage.bind(this)} upUrl={BACK.base_ip+'/upload/class/logo'}/></div>
                         </div>
                         <div style={{display:'flex',flexDirection:'row',marginTop:'30px'}}>
                             <div style={{

@@ -17,6 +17,7 @@ import {
 import Company from './classControl/Company';
 import Publish from './contentPublish/Publish';
 import Project from './classControl/Project';
+import Classes from './classControl/Classes';
 
 export default class Class extends React.Component{
     constructor(props){
@@ -33,7 +34,8 @@ export default class Class extends React.Component{
                 <Layout style={{ padding: '24px 0', background: '#fff' }}>
                     <Content style={{ padding: '0 24px', minHeight: 280 }}>
                         <Route path='/main/company/2' component={Company}/>
-                        <Route path='/main/company/project/:projectID' component={Project}/>
+                        <Route path='/main/company/project/:companyID' component={Project}/>
+                        <Route path='/main/company/classes/:projectID' component={Classes}/>
                         <Route path='/main/company/3' component={Publish}/>
                     </Content>
                 </Layout>

@@ -76,4 +76,10 @@ router.post('/company/logo',function (req,res,next) {
 
 })
 
+router.post('/class/logo',function (req,res,next) {
+
+    uploadFiles(req,res,BasePath+'/images/receive/images/class/logo/');
+
+})
+
 module.exports = router;

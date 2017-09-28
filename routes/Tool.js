@@ -85,5 +85,15 @@ module.exports = {
     //判断某个变量是否是数组
     isMyArray:function (arr) {
         return Object.prototype.toString.call(arr) === '[object Array]';
+    },
+    //生成七位班级密码
+    genPwdClass:function () {
+        var arr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+        var result = '';
+        for(var i=0;i<7;i++){
+            var idx = parseInt(Math.random()*26);
+            result += arr[idx];
+        }
+        return result;
     }
 }

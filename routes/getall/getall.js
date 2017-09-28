@@ -274,6 +274,32 @@ router.get('/projects',function (req,res) {
 })
 
 /**
+ * 获取某个项目已被添加的班级
+ * */
+router.get('/classes',function (req,res) {
+    var project_id = req.query.project_id;
+    if(!project_id){
+        ERROR.responseBodyError(res,'参数错误!');
+        return;
+    }
+
+    var query_sql = "select class_id,class_name,class_logo,class_intro,class_num,open_date,project_id,access_code from class " +
+        "where project_id="+project_id;
+
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
+})
+
+/**
  * 获取所有的回答
  * 参数 page   ?page=1
  * */

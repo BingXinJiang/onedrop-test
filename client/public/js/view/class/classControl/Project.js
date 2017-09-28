@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {bindActionCreators} from 'redux';
+import {Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as ProjectActions from '../actions/classActions/projectAction';
 import CONFIG from '../../../const/BackConfig';
@@ -51,6 +52,16 @@ const columns = [
     {
         title:'开放时间',
         dataIndex:'open_date'
+    },
+    {
+        title:'班级',
+        dataIndex:'check_classes',
+        render:(text,data) => {
+            var projectID = data ? data.project_id : 0;
+            return(
+                <Link to={'/main/company/classes/'+projectID}>{text}</Link>
+            )
+        }
     }
 ]
 
@@ -65,6 +76,12 @@ class ProjectTable extends React.Component{
 
     render(){
         const {projects} = this.props;
+        var newProjects = [];
+        projects.map((con,idx)=>{
+            con.key = idx+'';
+            con.check_classes = 'GO';
+            newProjects.push(con);
+        })
         return (
             <div style={{marginTop:'30px'}}>
                 <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
@@ -74,7 +91,7 @@ class ProjectTable extends React.Component{
                         <p style={{fontSize:'16px',color:'white'}}>添加项目</p>
                     </div>
                 </div>
-                <Table style={{marginTop:'30px'}} columns={columns} dataSource={projects} size="middle" />
+                <Table style={{marginTop:'30px'}} columns={columns} dataSource={newProjects} size="middle"/>
             </div>
         )
     }
