@@ -1,5 +1,5 @@
 /**
- * Created by jiangsong on 2017/7/24.
+ * Created by jiangsong on 2017/9/30.
  */
 import React from 'react';
 import {Table} from 'antd';
@@ -8,34 +8,28 @@ import BACK from '../../const/BackControll';
 
 const columns = [
     {
-        title:'问题ID',
-        dataIndex:'question_id'
+        title:'答案ID',
+        dataIndex:'answer_id'
     },
     {
-        title:'问题描述',
-        dataIndex:'question_desc'
+        title:'答案描述',
+        dataIndex:'answer_desc'
     },
     {
-        title:'提问者ID',
+        title:'用户ID',
         dataIndex:'user_id'
     },
     {
-        title:'提问时间',
-        dataIndex:'up_time'
+        title:'回答时间',
+        dataIndex:'answer_time'
     },
     {
-        title:'查看详情',
-        dataIndex:'check_detail',
-        render:(text,question) => {
-            var questionId = question.question_id
-            return (
-                <Link to={'/main/q/answer/'+questionId}>查看</Link>
-            )
-        }
+        title:'所属问题',
+        dataIndex:'question_id'
     }
 ]
 
-class QuestionTable extends React.Component{
+class TableAnswer extends React.Component{
     constructor(props){
         super(props);
     }
@@ -51,15 +45,20 @@ class QuestionTable extends React.Component{
     }
 }
 
-export default class Question extends React.Component{
+export default class Answer extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             tableData:[]
         }
+        this.questionId = '';
+    }
+    componentWillMount(){
+        this.questionId = location.pathname.split('/').pop();
     }
     componentDidMount(){
-        fetch(BACK.base_ip+'/get/all/questions',{
+        var url = BACK.base_ip+'/get/answers?question_id='+this.questionId;
+        fetch(url,{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
@@ -84,7 +83,7 @@ export default class Question extends React.Component{
     render(){
         return(
             <div>
-                <QuestionTable tableData={this.state.tableData}/>
+                <TableAnswer tableData={this.state.tableData}/>
             </div>
         )
     }

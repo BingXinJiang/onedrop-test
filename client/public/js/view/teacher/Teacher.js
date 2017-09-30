@@ -34,7 +34,7 @@ const columns = [
     },
     {
         title: '老师照片',
-        dataIndex: 'teacher_img',
+        dataIndex: 'teacher_image',
         key: 'teacher_img',
         render: imgUrl => <img style={{width:'60px',height:'60px'}} src={BACK.res_ip+imgUrl}/>
     }

@@ -16,16 +16,16 @@ router.post('/add_course_section',function (req,res,next) {
     var section_name = req.body.section_name;
 
     //section_voice 需根据section_id和course_id生成路径
-    var section_voice = CONST.ResBaseUrl + '/sections/section_'+course_id+'_1_'+section_id+'.mp3';
+    var section_voice = CONST.ResBaseUrl + '/sections/'+req.body.section_voice;
 
     var section_des = req.body.section_des;
     var course_author = req.body.course_author;
     var open_date = req.body.open_date;
     var author_id = req.body.author_id;
     //section_list_img 根据section_id和course_id生成路径
-    var section_list_img = '/images/courses/section_'+course_id+'_1_'+section_id+'.jpg';
+    var section_list_img = '/images/courses/'+req.body.section_list_img;
     //section_detail_img 根据section_id和course_id生成路径
-    var section_detail_img = '/images/courses/intro/section_'+course_id+'_1_'+section_id+'.jpg';
+    var section_detail_img = '/images/courses/intro/'+req.body.section_detail_img;
     var section_intro = req.body.section_intro;
     var label_des = req.body.label_des;
 

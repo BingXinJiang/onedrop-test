@@ -361,15 +361,55 @@ router.post('/class',function (req,res) {
  * 添加老师
  * 参数：  teacher_name   teacher_position  teacher_des
  * */
-router.post('/teacher',function (req,res,next) {
+router.post('/teacher',function (req,res) {
 
     var teacher_name = req.body.teacher_name;
     var teacher_position = req.body.teacher_position;
     var teacher_des = req.body.teacher_des;
 
-    var teacher_head = '';
-    var teacher_img = '';
+    var teacher_head = '/images/teacher/head/'+req.body.teacher_head;
+    var teacher_image = '/images/teacher/photo/'+req.body.teacher_image;
 
+    var query_max = "select max(teacher_id)max from teacher";
+    async.waterfall([
+        function (cb) {
+            query(query_max,function (qerr,valls,fields) {
+                if(qerr){
+                    cb(qerr);
+                }else{
+                    if(valls.length<1){
+                        cb(null,1);
+                    }else{
+                        var num = valls[0].max+1;
+                        cb(null,num);
+                    }
+                }
+            })
+        },
+        function (max,cb) {
+            var insert_sql = "insert into teacher(teacher_id,teacher_name,teacher_position,teacher_des,teacher_head,teacher_image) " +
+                "values("+max+",'"+teacher_name+"','"+teacher_position+"','"+teacher_des+"','"+teacher_head+"','"+teacher_image+"')";
+            query(insert_sql,function (qerr,valls,fields) {
+                if(qerr){
+                    cb(qerr);
+                }else{
+                    cb(null);
+                }
+            })
+        }
+    ],function (err,result) {
+        if(err){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:{
+                    msg:'老师信息插入成功！'
+                }
+            }
+            res.json(response);
+        }
+    })
 
 
 })

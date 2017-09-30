@@ -4,46 +4,31 @@
 
 import React from 'react';
 import { Form, Input, Tooltip, Icon, Cascader, Button,DatePicker,Mention,
-    InputNumber,Upload
+    InputNumber
 } from 'antd';
 import UploadFile from '../../Tool/UploadFile';
 const FormItem = Form.Item;
-const { toString } = Mention;
 import BACK from '../../const/BackControll';
-import Tool from '../../Tool/Tool';
+import Avator from '../class/views/Avator';
+import Content from './Content';
 
-const authors = [{
-    value: '马成功',
-    label: '马成功'
-}, {
-    value: '邰宏伟',
-    label: '邰宏伟'
-}];
-
-const authorIDs = [{
-    value: 1,
-    label: '01---马成功'
-}, {
-    value: 2,
-    label: '02---邰宏伟'
-}];
-
-const picList = [];
-
-const picProps = {
-    action: '//jsonplaceholder.typicode.com/posts/',
-    listType: 'picture',
-    defaultFileList: [...picList]
-};
-
-class RegistrationForm extends React.Component {
+class RegistrationForm extends React.PureComponent {
     constructor(props){
         super(props);
         this.state = {
             confirmDirty: false,
             authors:[],
-            authorIDs:[]
+            authorIDs:[],
+            showContent:false
         }
+        this.sectionListImg = '';
+        this.sectionDetailImg = '';
+        this.voiceFilename = '';
+        this.sectionDes = '';
+    }
+    static propTypes = {
+        callback:React.PropTypes.func,
+        sectionContent:React.PropTypes.string
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -53,11 +38,27 @@ class RegistrationForm extends React.Component {
                     ...fieldValues,
                     'date-picker': fieldValues['date-picker'].format('YYYY-MM-DD')
                 }
+                if(!this.voiceFilename){
+                    alert('请上传音频文件！');
+                    return;
+                }
+                if(!this.sectionDetailImg || !this.sectionListImg){
+                    alert('请上传文章图片！');
+                    return;
+                }
+                if(!this.sectionDes){
+                    alert('请输入文章正文！');
+                    return;
+                }
                 const newValues = {
                     ...values,
                     'author_id':values['author_id'][0],
                     'course_author':values['course_author'][0],
-                    'open_date':values['date-picker']
+                    'open_date':values['date-picker'],
+                    'section_list_img':this.sectionListImg,
+                    'section_detail_img':this.sectionDetailImg,
+                    'section_voice':this.voiceFilename,
+                    'section_des':this.sectionDes
                 }
                 console.log('newValues:',newValues);
                 fetch(BACK.base_ip+'/addcourse/add_course_section',{
@@ -74,6 +75,14 @@ class RegistrationForm extends React.Component {
                 })
             }
         });
+    }
+
+    componentWillReceiveProps(nextProps){
+        var sectionDes = nextProps.sectionContent;
+        if(sectionDes){
+            this.sectionDes = sectionDes;
+            this.refs['course_content_textarea_point'].value = '文章正文内容已添加...'
+        }
     }
 
     componentDidMount(){
@@ -142,6 +151,7 @@ class RegistrationForm extends React.Component {
         return (
             <Form onSubmit={this.handleSubmit}>
 
+
                 <FormItem
                     {...formItemLayout}
                     label="课程ID(course_id)"
@@ -157,6 +167,7 @@ class RegistrationForm extends React.Component {
                         <InputNumber/>
                     )}
                 </FormItem>
+
 
 
                 <FormItem
@@ -230,11 +241,21 @@ class RegistrationForm extends React.Component {
                     hasFeedback
                 >
 
-                    {getFieldDecorator('section_des', {
-                        rules: [{ required: true, message: 'Please input section_des!', whitespace: true }],
-                    })(
-                        <textarea style={{width:'100%',height:'120px',paddingLeft:'10px',paddingRight:'10px'}}/>
-                    )}
+
+                    {/*{getFieldDecorator('section_des', {*/}
+                        {/*rules: [{ required: true, message: 'Please input section_des!', whitespace: true }],*/}
+                    {/*})(*/}
+                        {/*<textarea ref="course_content_textarea_point" style={{width:'100%',height:'60px',paddingLeft:'10px',paddingRight:'10px'}}*/}
+                                  {/*onClick={()=>{*/}
+                                      {/*this.props.callback();*/}
+                                  {/*}}*/}
+                        {/*/>*/}
+                    {/*)}*/}
+                    <textarea ref="course_content_textarea_point" style={{width:'100%',height:'60px',paddingLeft:'10px',paddingRight:'10px'}}
+                              onClick={()=>{
+                                  this.props.callback();
+                              }}
+                    />
 
                 </FormItem>
 
@@ -281,7 +302,9 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="章节语音(section_voice)"
                 >
-                    <UploadFile uploadUrl="/upload/file"/>
+                    <UploadFile uploadUrl="/upload/file" callback={(filename)=>{
+                        this.voiceFilename = filename;
+                    }}/>
                 </FormItem>
 
 
@@ -290,11 +313,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="章节列表图(section_list_img)"
                 >
-                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/list'}}>
-                        <Button>
-                            <Icon type="upload"/> upload
-                        </Button>
-                    </Upload>
+                    <Avator callback={(imgUrl)=>{this.sectionListImg = imgUrl}} upUrl={BACK.base_ip+'/upload/img/list'}/>
                 </FormItem>
 
 
@@ -303,26 +322,8 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="章节详情页头图(section_detail_img)"
                 >
-                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/detail'}}>
-                        <Button>
-                            <Icon type="upload" /> upload
-                        </Button>
-                    </Upload>
+                    <Avator callback={(imgUrl)=>{this.sectionDetailImg = imgUrl}} upUrl={BACK.base_ip+'/upload/img/detail'}/>
                 </FormItem>
-
-
-
-                <FormItem
-                    {...formItemLayout}
-                    label="章节文章内部图(section_content_detail_img)"
-                >
-                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/img/course_detail'}}>
-                        <Button>
-                            <Icon type="upload" /> upload
-                        </Button>
-                    </Upload>
-                </FormItem>
-
 
 
                 <FormItem
@@ -383,12 +384,35 @@ const WrappedRegistrationForm = Form.create()(RegistrationForm);
 export default class CourseCommit extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            isShowContent:false,
+            sectionContent:''
+        }
     }
 
     render(){
         return(
             <div>
-                <WrappedRegistrationForm/>
+                <WrappedRegistrationForm sectionContent={this.state.sectionContent} callback={()=>{
+                    this.setState({
+                        isShowContent:true,
+                    })
+                }}/>
+                {
+                    this.state.isShowContent ? <Content callback={(status,content)=>{
+                        if(status === 'done'){
+                            this.setState({
+                                isShowContent:false,
+                                sectionContent:content
+                            })
+                        }
+                        if(status === 'cancel'){
+                            this.setState({
+                                isShowContent:false
+                            })
+                        }
+                    }}/> : null
+                }
             </div>
         )
     }

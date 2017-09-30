@@ -24,6 +24,7 @@ import CourseLabel from '../course/CourseLabel';
 import Label from '../label/Label';
 import AddLabel from '../label/AddLabel';
 import Question from '../question/Question';
+import QAnswer from '../question/Answer';
 import Rank from '../rank/Rank';
 import Teacher from '../teacher/Teacher';
 import AddTeacher from '../teacher/AddTeacher';
@@ -50,8 +51,8 @@ class OnedropPlat extends React.Component{
                             style={{ height: '100%' }}
                         >
                             <SubMenu key="sub1" title={<span><Icon type="book" />用户</span>}>
-                                <Menu.Item key="01"><Link to="/main/user">所有用户</Link></Menu.Item>
-                                <Menu.Item key="02"><Link to="/main/user_fraction">用户能量</Link></Menu.Item>
+                                <Menu.Item key="01"><Link to="/main/user">用户信息下载</Link></Menu.Item>
+                                <Menu.Item key="02"><Link to="/main/users">用户信息</Link></Menu.Item>
                             </SubMenu>
                             <SubMenu key="sub2" title={<span><Icon type="book" />课程</span>}>
                                 <Menu.Item key="11"><Link to="/main/course">所有课程</Link></Menu.Item>
@@ -89,6 +90,7 @@ class OnedropPlat extends React.Component{
                         <Route path="/main/label" component={Label}/>
                         <Route path="/main/add_label" component={AddLabel}/>
                         <Route path="/main/question" component={Question}/>
+                        <Route path="/main/q/answer/:questionId" component={QAnswer}/>
                         <Route path="/main/rank" component={Rank}/>
                         <Route path="/main/teacher" component={Teacher}/>
                         <Route path="/main/add_teacher" component={AddTeacher}/>

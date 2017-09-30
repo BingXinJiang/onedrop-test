@@ -7,34 +7,47 @@ import { Form, Input, Tooltip, Icon, Button,Mention,
 } from 'antd';
 import BACK from '../../const/BackControll';
 const FormItem = Form.Item;
-const { toString } = Mention;
-
-const picList = [];
-
-const picProps = {
-    action: '//jsonplaceholder.typicode.com/posts/',
-    listType: 'picture',
-    defaultFileList: [...picList]
-};
+import Avator from '../class/views/Avator';
 
 class RegistrationForm extends React.Component {
-    state = {
-        confirmDirty: false,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            confirmDirty: false
+        }
+        this.teacherHeadName = '';
+        this.teacherPhotoName = '';
+    }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, fieldValues) => {
             if (!err) {
-                const values = {
-                    ...fieldValues
+                if(!this.teacherHeadName){
+                    alert('必须上传老师头像！');
+                    return;
                 }
-                console.log('Received values of form: ', values);
+                const values = {
+                    ...fieldValues,
+                    teacher_head:this.teacherHeadName,
+                    teacher_image:this.teacherPhotoName
+                }
+                // console.log('Received values of form: ', values);
+                fetch(BACK.base_ip+'/add/teacher',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'accept':'application/json'
+                    },
+                    body:JSON.stringify(values)
+                }).then((res)=>res.json()).then((res)=>{
+                    if(res.status === 1){
+                        alert('老师信息提交成功！');
+                    }else{
+                        alert('数据提交失败！');
+                    }
+                })
             }
         });
-    }
-
-    componentDidMount(){
-        console.log('---------------');
     }
 
     render() {
@@ -135,14 +148,11 @@ class RegistrationForm extends React.Component {
                     )}
                     hasFeedback
                 >
-                    <Mention
-                        style={{ width: '100%', height: 100 }}
-                        onChange={(editorState)=>{
-                            // console.log(toString(editorState));
-                        }}
-                        suggestions={[]}
-                        multiLines
-                    />
+                    {getFieldDecorator('teacher_des', {
+                        rules: [{ required: true, message: 'Please input teacher_des!', whitespace: true }],
+                    })(
+                        <textarea style={{width:'100%',height:'60px',paddingLeft:'10px',paddingRight:'10px'}}/>
+                    )}
 
                 </FormItem>
 
@@ -153,36 +163,23 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="teacher_head"
                 >
-                    <Upload {...{...picProps , action:BACK.base_ip+'/upload/teacher/head'}}>
-                        <Button>
-                            <Icon type="upload" /> upload
-                        </Button>
-                    </Upload>
+                    <Avator callback={(imgName)=>{this.teacherHeadName=imgName}} upUrl={BACK.base_ip+'/upload/teacher/head'}/>
                 </FormItem>
 
 
 
                 <FormItem
                     {...formItemLayout}
-                    label="teacher_img"
+                    label="teacher_image"
                 >
-                    <Upload  {...{...picProps , action:BACK.base_ip+'/upload/teacher/photo'}}
-                             onSuccess = {(res)=>{
-                                 console.log(JSON.stringify(res));
-                                 console.log('文件上传成功')
-                             }}
-                    >
-                        <Button>
-                            <Icon type="upload" /> upload
-                        </Button>
-                    </Upload>
+                    <Avator callback={(imgName)=>{this.teacherPhotoName=imgName}} upUrl={BACK.base_ip+'/upload/teacher/photo'}/>
                 </FormItem>
 
 
 
 
                 <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
+                    <Button type="primary" htmlType="submit">增加老师</Button>
                 </FormItem>
             </Form>
         );

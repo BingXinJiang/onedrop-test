@@ -5,6 +5,7 @@ import React from 'react';
 import { Table, Input, Popconfirm } from 'antd';
 import BACK from '../../const/BackControll';
 import Tool from '../../Tool/Tool';
+import Loading from '../class/views/Loading';
 
 class EditableCell extends React.Component {
     state = {
@@ -56,7 +57,6 @@ class EditableCell extends React.Component {
         );
     }
 }
-
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
@@ -118,6 +118,9 @@ class EditableTable extends React.Component {
             data: []
         };
     }
+    static propTypes = {
+        callback:React.PropTypes.func
+    }
     renderColumns(data, index, key, text) {
         const { editable, status } = data[index][key];
         if (typeof editable === 'undefined') {
@@ -134,6 +137,26 @@ class EditableTable extends React.Component {
         const { data } = this.state;
         data[index][key].value = value;
         this.setState({ data });
+        let comment_id = data[index].comment_id.value;
+        this.fetchEdit(comment_id,value);
+    }
+    fetchEdit(comment_id,value){
+        process.nextTick(()=>{
+            fetch(BACK.base_ip+'/comment/edit',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'accept':'application'
+                },
+                body:JSON.stringify({comment_id:comment_id,is_checked:value})
+            }).then((res)=>res.json()).then((res)=>{
+                if(res.status === 1){
+                    alert('评论审核信息提交成功！');
+                }else{
+                    alert('评论审核信息提交失败！');
+                }
+            })
+        })
     }
     edit(index) {
         const { data } = this.state;
@@ -143,21 +166,10 @@ class EditableTable extends React.Component {
             }
         });
 
-        console.log('----data[index]:',data[index]);
-
-        console.log('----data[index].is_checked:',data[index].is_checked);
-
-        console.log('----data[index].is_checked.value:',data[index].is_checked.value);
         this.setState({ data });
     }
     editDone(index, type) {
         const { data } = this.state;
-
-        // console.log('data[index]:',data[index]);
-        //
-        // console.log('data[index].is_checked:',data[index].is_checked);
-        //
-        // console.log('data[index].is_checked.value:',data[index].is_checked.value);
 
         Object.keys(data[index]).forEach((item) => {
             if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
@@ -166,12 +178,6 @@ class EditableTable extends React.Component {
             }
         });
 
-        console.log('data[index]:',data[index]);
-
-        console.log('data[index].is_checked:',data[index].is_checked);
-
-        console.log('data[index].is_checked.value:',data[index].is_checked.value);
-
         this.setState({ data }, () => {
             Object.keys(data[index]).forEach((item) => {
                 if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
@@ -179,9 +185,6 @@ class EditableTable extends React.Component {
                 }
             });
         });
-        // console.log('data.comment_id:',data[index].comment_id.value);
-        // console.log('data.is_checked:',data[index].is_checked.value);
-        // console.log('type:',type);
     }
     getData(page){
         fetch(BACK.base_ip+'/get/comments?page='+page,{
@@ -248,11 +251,28 @@ class EditableTable extends React.Component {
 export default class Comment extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            isLoading:false
+        }
+    }
+    handleLoading(isLoading){
+        if(isLoading){
+            this.setState({
+                isLoading:true
+            })
+        }else {
+            this.setState({
+                isLoading:false
+            })
+        }
     }
     render(){
         return(
             <div>
-                <EditableTable />
+                <EditableTable callback={this.handleLoading.bind(this)}/>
+                {
+                    this.state.isLoading ? <Loading/> : null
+                }
             </div>
         )
     }

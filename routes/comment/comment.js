@@ -31,7 +31,7 @@ router.post('/edit',function (req,res) {
             var response = {
                 status:1,
                 data:{
-                    msg:'评论审核通过！'
+                    msg:'评论审核信息修改成功！'
                 }
             }
             res.json(response);

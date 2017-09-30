@@ -13,13 +13,19 @@ export default class UploadFile extends React.Component{
         this.state={
             fileList: [],
             uploading: false
-        }
+        };
+        this.filename = '';
         this.handleUpload = this.handleUpload.bind(this);
+    }
+    static propTypes = {
+        uploadUrl:React.PropTypes.string,
+        callback:React.PropTypes.func
     }
     handleUpload(){
         const { fileList } = this.state;
         const formData = new FormData();
         fileList.forEach((file) => {
+            this.filename = file.name;
             formData.append('files[]', file);
         });
 
@@ -38,6 +44,7 @@ export default class UploadFile extends React.Component{
                     fileList: [],
                     uploading: false,
                 });
+                this.props.callback(this.filename);
                 message.success('upload successfully.');
             },
             error: () => {

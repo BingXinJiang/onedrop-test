@@ -189,6 +189,48 @@ router.get('/questions',function (req,res,next) {
             res.json(response);
         }
     })
+})
+/**
+ * 获取所有问题，简单信息
+ * */
+router.get('/all/questions',function (req,res) {
+
+    var query_sql = "select question_id,question_desc,user_id,up_time from question order by up_time desc";
+
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
+})
+/**
+ * 获取某个问题的所有的回答
+ * 参数 question_id
+ * */
+router.get('/answers',function (req,res,next) {
+
+    var question_id = req.query.question_id;
+
+    var query_sql = "select answer_id,answer_desc,user_id,answer_time from answer where question_id='"+question_id+"' order by " +
+        "answer_time desc";
+    // console.log('query_sql:',query_sql);
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else{
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
 
 })
 
@@ -299,14 +341,7 @@ router.get('/classes',function (req,res) {
     })
 })
 
-/**
- * 获取所有的回答
- * 参数 page   ?page=1
- * */
-router.get('/answer',function (req,res,next) {
 
-    
-})
 
 
 module.exports = router;

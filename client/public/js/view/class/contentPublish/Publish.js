@@ -7,9 +7,14 @@ export default class Publish extends React.Component{
     constructor(props){
         super(props);
     }
+    handleBack(content){
+
+    }
     render(){
         return(
-            <div>这是发布！</div>
+            <div>
+
+            </div>
         )
     }
 }
