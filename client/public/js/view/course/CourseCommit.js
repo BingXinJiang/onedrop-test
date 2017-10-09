@@ -63,6 +63,7 @@ class RegistrationForm extends React.PureComponent {
                 console.log('newValues:',newValues);
                 fetch(BACK.base_ip+'/addcourse/add_course_section',{
                     method:'POST',
+                    credentials : 'include',
                     headers:{
                         'Content-Type':'application/json',
                         'Accept':'application/json'
@@ -88,6 +89,7 @@ class RegistrationForm extends React.PureComponent {
     componentDidMount(){
         fetch(BACK.base_ip+'/get/teachers',{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'

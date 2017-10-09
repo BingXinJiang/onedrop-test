@@ -25,6 +25,7 @@ export const fetchAllCompany = ()=>{
     return (dispatch)=>{
         return fetch(BACK.base_ip+'/get/companys',{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
@@ -61,6 +62,7 @@ export const fetchAddCompany = (company)=>{
         dispatch(addPre());
         return fetch(BACK.base_ip+'/add/company',{
             method:'POST',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
@@ -71,6 +73,7 @@ export const fetchAddCompany = (company)=>{
                 //数据插入成功！
                 fetch(BACK.base_ip+'/get/companys',{
                     method:'GET',
+                    credentials : 'include',
                     headers:{
                         'Content-Type':'application/json',
                         'Accept':'application/json'

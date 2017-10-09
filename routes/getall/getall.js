@@ -341,7 +341,15 @@ router.get('/classes',function (req,res) {
     })
 })
 
+/**
+ * 获取所有的用户
+ * */
+router.get('/users',function (req,res) {
 
+    var page = req.query.page;
+
+
+})
 
 
 module.exports = router;

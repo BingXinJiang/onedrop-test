@@ -20,6 +20,7 @@ class RegistrationForm extends React.Component {
                 }
                 fetch(BACK.base_ip+'/add/label',{
                     method:'POST',
+                    credentials : 'include',
                     headers:{
                         'Content-Type':'application/json',
                         'Accept':'application/json'

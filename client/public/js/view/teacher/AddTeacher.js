@@ -34,6 +34,7 @@ class RegistrationForm extends React.Component {
                 // console.log('Received values of form: ', values);
                 fetch(BACK.base_ip+'/add/teacher',{
                     method:'POST',
+                    credentials : 'include',
                     headers:{
                         'Content-Type':'application/json',
                         'accept':'application/json'

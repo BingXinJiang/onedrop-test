@@ -29,6 +29,7 @@ export default class Course extends React.Component{
     componentDidMount(){
         fetch(BACK.base_ip+'/get/labels',{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'

@@ -35,6 +35,7 @@ export const fetchAllClasses = (projectID)=>{
         var url = BACK.base_ip + '/get/classes?project_id='+projectID;
         return fetch(url,{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'accept':'application/json'
@@ -75,6 +76,7 @@ export const fetchAddClass = (pclass)=>{
         var url = BACK.base_ip + '/add/class';
         return fetch(url,{
             method:'POST',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'accept':'application/json'
@@ -86,6 +88,7 @@ export const fetchAddClass = (pclass)=>{
                 var url2 = BACK.base_ip + '/get/classes?project_id='+projectID;
                 fetch(url2,{
                     method:'GET',
+                    credentials : 'include',
                     headers:{
                         'Content-Type':'application/json',
                         'accept':'application/json'

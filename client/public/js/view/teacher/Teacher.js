@@ -50,6 +50,7 @@ export default class Teacher extends React.Component{
     componentDidMount(){
         fetch(BACK.base_ip+'/get/teachers',{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'

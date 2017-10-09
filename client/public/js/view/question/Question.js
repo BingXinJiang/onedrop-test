@@ -61,6 +61,7 @@ export default class Question extends React.Component{
     componentDidMount(){
         fetch(BACK.base_ip+'/get/all/questions',{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'accept':'application/json'

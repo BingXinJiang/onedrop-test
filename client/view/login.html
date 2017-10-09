@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>云谷慧</title>
+    <style type="text/css">
+        body,div,p {
+            padding:0;
+            margin: 0;
+        }
+        .wai_container{
+            width: 100%;
+            height: 550px;
+            display: flex;
+            justify-content: center;
+        }
+        .nei_container{
+            width:500px;
+            height: 500px;
+            background-color: rgb(231,231,231);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .input_container{
+            margin-top: 30px;
+            display: flex;
+        }
+        .label{
+            margin-right: 5px;
+        }
+        .input{
+            width: 200px;
+            height: 26px;
+        }
+        .login{
+            width: 90px;
+            height: 50px;
+            background-color: #00B7FF;
+            display: flex;
+            margin-top: 50px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 7px;
+
+        }
+    </style>
+</head>
+<body>
+<div class="wai_container">
+    <div class="nei_container">
+        <div class="input_container">
+            <p class="label">用户名:</p>
+            <input id="user_name" class="input" type="text"/>
+        </div>
+        <div class="input_container">
+            <p class="label">密&nbsp;&nbsp;&nbsp;码:</p>
+            <input id="user_password" class="input" type="password"/>
+        </div>
+        <div id="login" class="login">
+            <p style="font-size: 24px; color: white">登陆</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+        var loginBtn = document.getElementById('login');
+        loginBtn.addEventListener('click',function () {
+            var name = document.getElementById('user_name').value;
+            var pwd = document.getElementById('user_password').value;
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState===4 && xmlHttp.status===200){
+                    var res = JSON.parse(xmlHttp.responseText);
+                    if(res.status === 0){
+                        alert('用户名或密码错误！');
+                    }
+                    if(res.status === 1){
+                        window.location.href = 'http://192.168.1.32:3300/main';
+                    }
+                }
+            }
+            xmlHttp.open("post","http://192.168.1.32:3300/login",true);
+            xmlHttp.setRequestHeader("Content-type","application/json");
+            xmlHttp.send(JSON.stringify({
+                name:name,
+                password:pwd
+            }));
+        },false)
+    }
+</script>
+</body>
+</html>

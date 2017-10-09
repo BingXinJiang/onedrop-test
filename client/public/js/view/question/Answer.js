@@ -60,6 +60,7 @@ export default class Answer extends React.Component{
         var url = BACK.base_ip+'/get/answers?question_id='+this.questionId;
         fetch(url,{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'accept':'application/json'

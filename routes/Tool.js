@@ -2,6 +2,7 @@
  * Created by jiangsong on 2017/5/23.
  */
 
+var fs = require('fs');
 
 Date.prototype.pattern=function(fmt) {
     var o = {
@@ -95,5 +96,25 @@ module.exports = {
             result += arr[idx];
         }
         return result;
+    },
+
+    //从txt中读取admin用户数据
+    getAdminUsers:function (path,cb) {
+        fs.readFile(path, 'utf8', function(err, data){
+            if(err){
+                cb(err);
+            }else{
+                var users = data.split('\n');
+                var result = [];
+                users.map(function (user,index) {
+                    var tmpA = user.split(' ');
+                    var u = {};
+                    u.name = tmpA[0];
+                    u.password = tmpA[1];
+                    result.push(u);
+                })
+                cb(null,result);
+            }
+        });
     }
 }

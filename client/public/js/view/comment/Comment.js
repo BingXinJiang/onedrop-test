@@ -189,6 +189,7 @@ class EditableTable extends React.Component {
     getData(page){
         fetch(BACK.base_ip+'/get/comments?page='+page,{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'

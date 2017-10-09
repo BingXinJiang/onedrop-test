@@ -17,6 +17,7 @@ import {
 import Class from '../class/app';
 
 import User from '../user/User';
+import Users from '../user/UserFraction';
 import Answer from '../answer/Answer';
 import Course from '../course/Course';
 import CourseCommit from '../course/CourseCommit';
@@ -29,6 +30,7 @@ import Rank from '../rank/Rank';
 import Teacher from '../teacher/Teacher';
 import AddTeacher from '../teacher/AddTeacher';
 import Comment from '../comment/Comment';
+
 
 class OnedropPlat extends React.Component{
     constructor(props){
@@ -83,6 +85,7 @@ class OnedropPlat extends React.Component{
                     </Sider>
                     <Content style={{ padding: '0 24px', minHeight: 280 }}>
                         <Route path="/main/user" component={User}/>
+                        <Route path="/main/users" component={Users}/>
                         <Route path="/main/answer" component={Answer}/>
                         <Route path="/main/course" component={Course}/>
                         <Route path="/main/course_commit" component={CourseCommit}/>

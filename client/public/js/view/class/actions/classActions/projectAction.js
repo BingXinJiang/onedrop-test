@@ -28,6 +28,7 @@ export const fetchCompany = (companyID)=>{
         var url = BACK.base_ip + '/get/company?company_id='+companyID;
         return fetch(url,{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
@@ -54,6 +55,7 @@ export const fetchProjects = (companyID)=>{
         var url = BACK.base_ip + '/get/projects?company_id=' + companyID;
         return fetch(url,{
             method:'GET',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
@@ -93,6 +95,7 @@ export const fetchAddProject = (project)=>{
         var url = BACK.base_ip + '/add/project';
         return fetch(url,{
             method:'POST',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
@@ -103,6 +106,7 @@ export const fetchAddProject = (project)=>{
                 var url = BACK.base_ip + '/get/projects?company_id=' + project.company_id;
                 fetch(url,{
                     method:'GET',
+                    credentials : 'include',
                     headers:{
                         'Content-Type':'application/json',
                         'Accept':'application/json'

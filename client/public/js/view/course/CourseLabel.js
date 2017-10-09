@@ -217,6 +217,7 @@ export default class CourseLabel extends React.Component{
         }
         fetch(BACK.base_ip+'/add/label/section',{
             method:'POST',
+            credentials : 'include',
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
