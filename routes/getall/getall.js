@@ -348,8 +348,67 @@ router.get('/users',function (req,res) {
 
     var page = req.query.page;
 
+    var query_sql = "select user_id,nickname,be_date,username from user order by be_date desc";
 
+    // console.log('query_sql:',query_sql);
+
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else {
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
 })
+/**
+ * 获取所有排名
+ * */
+router.get('/ranks',function (req,res) {
+    var page = req.query.page;
+    var query_sql = "select A.user_id,B.nickname,A.fraction from " +
+        "(select user_id,fraction from user_value order by fraction desc)as A " +
+        "left join " +
+        "(select user_id,nickname from user)as B " +
+        "on A.user_id = B.user_id";
+    // console.log('query_sql:',query_sql);
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else {
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
+})
+/**
+ * 获取所有课程
+ * */
+router.get('/courses',function (req,res) {
+    var page = req.query.page;
+    var query_sql = "select A.section_id,A.section_name,B.teacher_name,A.section_intro,A.label_des,A.open_date from " +
+        "(select section_id,section_name,author_id,open_date,section_intro,label_des from course_section order by section_id desc)as A " +
+        "left join " +
+        "(select teacher_id,teacher_name from teacher)as B " +
+        "on A.author_id = B.teacher_id";
 
+    query(query_sql,function (qerr,valls,fields) {
+        if(qerr){
+            ERROR.responseDataErr(res);
+        }else {
+            var response = {
+                status:1,
+                data:valls
+            }
+            res.json(response);
+        }
+    })
+})
 
 module.exports = router;

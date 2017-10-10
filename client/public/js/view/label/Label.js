@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { Table } from 'antd';
-import BACK from '../../const/BackControll';
+import Tool from '../../Tool/Tool';
+import JSAlert from '../main/view/JSAlert';
 
 const columns = [
     {
@@ -15,6 +16,25 @@ const columns = [
         title: '标签名字',
         dataIndex: 'label_name',
         key: 'label_name',
+    },
+    {
+        title:'删除课程',
+        dataIndex:'delete',
+        width:'7%',
+        render:(text,label)=>{
+            let labelId = label.label_id;
+            return (
+                <JSAlert title='删除' pointTitle='确认删除该标签吗？' confirm={()=>{
+                    Tool.post('/del/label',{label_id:labelId},()=>{
+                        alert('标签删除成功！');
+                    },()=>{
+                        alert('标签删除失败！');
+                    })
+                }} cancel={()=>{
+
+                }}/>
+            )
+        }
     }
 ];
 
@@ -27,31 +47,22 @@ export default class Course extends React.Component{
         }
     }
     componentDidMount(){
-        fetch(BACK.base_ip+'/get/labels',{
-            method:'GET',
-            credentials : 'include',
-            headers:{
-                'Content-Type':'application/json',
-                'Accept':'application/json'
-            }
-        }).then((re)=>re.json()).then((resText)=>{
-            if(resText.status === 1){
-                var labels = resText.data;
-                var newLabels = [];
-                labels.map((label,idx)=>{
-                    var newLabel = {
-                        key:label.label_id+'',
-                        label_id:label.label_id+'',
-                        label_name:label.label_name
-                    };
-                    newLabels.push(newLabel);
-                });
-                this.setState({
-                    labels:newLabels
-                })
-            }else{
-                alert(JSON.stringify(resText.data));
-            }
+        Tool.get('/get/labels',(data)=>{
+            let labels = data;
+            let newLabels = [];
+            labels.map((label,idx)=>{
+                var newLabel = {
+                    key:label.label_id+'',
+                    label_id:label.label_id+'',
+                    label_name:label.label_name
+                };
+                newLabels.push(newLabel);
+            });
+            this.setState({
+                labels:newLabels
+            })
+        },(data)=>{
+            alert(JSON.stringify(data));
         })
     }
     render(){

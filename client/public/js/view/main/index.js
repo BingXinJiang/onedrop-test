@@ -18,7 +18,6 @@ import Class from '../class/app';
 
 import User from '../user/User';
 import Users from '../user/UserFraction';
-import Answer from '../answer/Answer';
 import Course from '../course/Course';
 import CourseCommit from '../course/CourseCommit';
 import CourseLabel from '../course/CourseLabel';
@@ -71,9 +70,6 @@ class OnedropPlat extends React.Component{
                             <SubMenu key="sub5" title={<span><Icon type="notification" />问题</span>}>
                                 <Menu.Item key="32"><Link to="/main/question">所有问题</Link></Menu.Item>
                             </SubMenu>
-                            <SubMenu key="sub6" title={<span><Icon type="notification" />答案</span>}>
-                                <Menu.Item key="41"><Link to="/main/answer">所有答案</Link></Menu.Item>
-                            </SubMenu>
                             <SubMenu key="sub7" title={<span><Icon type="notification" />老师</span>}>
                                 <Menu.Item key="51"><Link to="/main/teacher">所有老师</Link></Menu.Item>
                                 <Menu.Item key="52"><Link to="/main/add_teacher">增加老师</Link></Menu.Item>
@@ -86,7 +82,6 @@ class OnedropPlat extends React.Component{
                     <Content style={{ padding: '0 24px', minHeight: 280 }}>
                         <Route path="/main/user" component={User}/>
                         <Route path="/main/users" component={Users}/>
-                        <Route path="/main/answer" component={Answer}/>
                         <Route path="/main/course" component={Course}/>
                         <Route path="/main/course_commit" component={CourseCommit}/>
                         <Route path="/main/course_label" component={CourseLabel}/>
@@ -145,7 +140,7 @@ class MainPage extends React.Component{
                                 <Link to="/main/company/2">班级管理</Link>
                             </Menu.Item>
                             <Menu.Item key="3">
-                                <Link to="/main/company/3">内容发布</Link>
+                                <Link to="/main/company/3">课程分类</Link>
                             </Menu.Item>
                         </Menu>
                     </Header>

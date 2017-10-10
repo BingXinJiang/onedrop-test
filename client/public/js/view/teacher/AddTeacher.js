@@ -82,7 +82,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="teacher_id"
+                    label="老师ID(随意填写一个数字)"
                     hasFeedback
                 >
                     {getFieldDecorator('teacher_id', {
@@ -101,7 +101,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          teacher_name&nbsp;
+                          老师姓名&nbsp;
                             <Tooltip title="请输入老师的姓名">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -121,7 +121,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          teacher_position&nbsp;
+                          老师职位&nbsp;
                             <Tooltip title="请输入老师的职位">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -141,7 +141,7 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label={(
                         <span>
-                          teacher_des&nbsp;
+                          老师简介&nbsp;
                             <Tooltip title="请输入老师介绍">
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -162,7 +162,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="teacher_head"
+                    label="老师头像"
                 >
                     <Avator callback={(imgName)=>{this.teacherHeadName=imgName}} upUrl={BACK.base_ip+'/upload/teacher/head'}/>
                 </FormItem>
@@ -171,7 +171,7 @@ class RegistrationForm extends React.Component {
 
                 <FormItem
                     {...formItemLayout}
-                    label="teacher_image"
+                    label="老师照片"
                 >
                     <Avator callback={(imgName)=>{this.teacherPhotoName=imgName}} upUrl={BACK.base_ip+'/upload/teacher/photo'}/>
                 </FormItem>

@@ -144,6 +144,7 @@ class EditableTable extends React.Component {
         process.nextTick(()=>{
             fetch(BACK.base_ip+'/comment/edit',{
                 method:'POST',
+                credentials : 'include',
                 headers:{
                     'Content-Type':'application/json',
                     'accept':'application'

@@ -36,6 +36,8 @@ Date.prototype.pattern=function(fmt) {
     return fmt;
 }
 
+import BACK from '../const/BackControll';
+
 var Tool = {
     //将对象转化为字符串
     convertToString:(obj)=>{
@@ -59,6 +61,45 @@ var Tool = {
     dateFormatYMD:function (date) {
         var dateFmt = new Date(date).pattern('yyyy-MM-dd');
         return dateFmt;
+    },
+    //发送GET请求
+    get:(url,success,fail)=>{
+        fetch(BACK.base_ip+url,{
+            method:'GET',
+            credentials : 'include',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        }).then((res)=>res.json()).then((resText)=>{
+            if(resText.status === 1){
+                success(resText.data);
+            }else{
+                fail(resText.data);
+            }
+        }).catch((err)=>{
+            alert(JSON.stringify(err));
+        })
+    },
+    //发送post请求
+    post:(url,body,success,fail)=>{
+        fetch(BACK.base_ip+url,{
+            method:'POST',
+            credentials : 'include',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            },
+            body:JSON.stringify(body)
+        }).then((res)=>res.json()).then((resText)=>{
+            if(resText.status === 1){
+                success(resText.data);
+            }else{
+                fail(resText.data);
+            }
+        }).catch((err)=>{
+            alert(JSON.stringify(err));
+        })
     }
 }
 

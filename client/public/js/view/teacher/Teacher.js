@@ -4,6 +4,8 @@
 import React from 'react';
 import { Table } from 'antd';
 import BACK from '../../const/BackControll';
+import JSAlert from '../main/view/JSAlert';
+import Tool from '../../Tool/Tool';
 
 const columns = [
     {
@@ -37,6 +39,25 @@ const columns = [
         dataIndex: 'teacher_image',
         key: 'teacher_img',
         render: imgUrl => <img style={{width:'60px',height:'60px'}} src={BACK.res_ip+imgUrl}/>
+    },
+    {
+        title:'删除课程',
+        dataIndex:'delete',
+        width:'7%',
+        render:(text,teacher)=>{
+            let teacherId = teacher.teacher_id;
+            return (
+                <JSAlert title='删除' pointTitle='确认删除该老师吗？' confirm={()=>{
+                    Tool.post('/del/teacher',{teacher_id:teacherId},(data)=>{
+                        alert('老师删除成功！');
+                    },()=>{
+                        alert('老师删除失败！');
+                    })
+                }} cancel={()=>{
+
+                }}/>
+            )
+        }
     }
 ];
 
@@ -48,26 +69,17 @@ export default class Teacher extends React.Component{
         }
     }
     componentDidMount(){
-        fetch(BACK.base_ip+'/get/teachers',{
-            method:'GET',
-            credentials : 'include',
-            headers:{
-                'Content-Type':'application/json',
-                'Accept':'application/json'
-            }
-        }).then((res)=>res.json()).then((resText)=>{
-            if(resText.status === 1){
-                var teachers = [];
-                resText.data.map((te,idx)=>{
-                    te.key = (idx+1) + '';
-                    teachers.push(te);
-                })
-                this.setState({
-                    teachers:teachers
-                })
-            }else{
-                alert(JSON.stringify(resText.data));
-            }
+        Tool.get('/get/teachers',(data)=>{
+            var teachers = [];
+            data.map((te,idx)=>{
+                te.key = (idx+1) + '';
+                teachers.push(te);
+            })
+            this.setState({
+                teachers:teachers
+            })
+        },(data)=>{
+            alert(JSON.stringify(data));
         })
     }
     render(){

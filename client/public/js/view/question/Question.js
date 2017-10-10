@@ -9,7 +9,8 @@ import BACK from '../../const/BackControll';
 const columns = [
     {
         title:'问题ID',
-        dataIndex:'question_id'
+        dataIndex:'question_id',
+        width:'15%'
     },
     {
         title:'问题描述',
@@ -17,19 +18,22 @@ const columns = [
     },
     {
         title:'提问者ID',
-        dataIndex:'user_id'
+        dataIndex:'user_id',
+        width:'19%'
     },
     {
         title:'提问时间',
-        dataIndex:'up_time'
+        dataIndex:'up_time',
+        width:'15%'
     },
     {
         title:'查看详情',
         dataIndex:'check_detail',
+        width:'8%',
         render:(text,question) => {
             var questionId = question.question_id
             return (
-                <Link to={'/main/q/answer/'+questionId}>查看</Link>
+                <Link to={'/main/q/answer/'+questionId}>查看答案</Link>
             )
         }
     }

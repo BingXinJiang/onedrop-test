@@ -10,6 +10,7 @@ var addCourse = require('./course/AddCourseSection');
 var add = require('./course/Add');
 var get = require('./getall/getall');
 var comment = require('./comment/comment');
+var del = require('./deleteall/delete');
 
 module.exports = function (app) {
     app.use('/', index);
@@ -20,4 +21,5 @@ module.exports = function (app) {
     app.use('/add',add);
     app.use('/get',get);
     app.use('/comment',comment);
+    app.use('/del',del);
 }
