@@ -79,7 +79,7 @@ class ProjectTable extends React.Component{
         var newProjects = [];
         projects.map((con,idx)=>{
             con.key = idx+'';
-            con.check_classes = 'GO';
+            con.check_classes = '查看班级';
             newProjects.push(con);
         })
         return (

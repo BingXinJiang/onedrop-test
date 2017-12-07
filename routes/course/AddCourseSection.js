@@ -58,7 +58,7 @@ router.post('/add_course_section',function (req,res,next) {
         "'"+course_author+"','"+open_date+"',"+author_id+",'"+section_list_img+"','"+section_detail_img+"'," +
         "'"+section_intro+"','"+label_des+"')";
 
-    console.log('insert_sql:',insert_sql);
+    // console.log('insert_sql:',insert_sql);
 
     async.waterfall([
         function (callback) {

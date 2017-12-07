@@ -11,6 +11,7 @@ const FormItem = Form.Item;
 import BACK from '../../const/BackControll';
 import Avator from '../class/views/Avator';
 import Content from './Content';
+import Tool from '../../Tool/Tool';
 
 class RegistrationForm extends React.PureComponent {
     constructor(props){
@@ -61,18 +62,23 @@ class RegistrationForm extends React.PureComponent {
                     'section_des':this.sectionDes
                 }
                 console.log('newValues:',newValues);
-                fetch(BACK.base_ip+'/addcourse/add_course_section',{
-                    method:'POST',
-                    credentials : 'include',
-                    headers:{
-                        'Content-Type':'application/json',
-                        'Accept':'application/json'
-                    },
-                    body:JSON.stringify(newValues)
-                }).then((response)=> response.json()).then((resText)=>{
-                    console.log(resText);
-                }).catch((err)=>{
-                    console.log(err);
+                // fetch(BACK.base_ip+'/addcourse/add_course_section',{
+                //     method:'POST',
+                //     credentials : 'include',
+                //     headers:{
+                //         'Content-Type':'application/json',
+                //         'Accept':'application/json'
+                //     },
+                //     body:JSON.stringify(newValues)
+                // }).then((response)=> response.json()).then((resText)=>{
+                //     console.log(resText);
+                // }).catch((err)=>{
+                //     console.log(err);
+                // })
+                Tool.post('/addcourse/add_course_section',newValues,(data)=>{
+                    alert('课程提交成功！');
+                },(err)=>{
+                    alert(JSON.stringify(err));
                 })
             }
         });
@@ -357,7 +363,7 @@ class RegistrationForm extends React.PureComponent {
                     label={(
                         <span>
                           章节标签描述(label_des)&nbsp;
-                            <Tooltip title="请输入小节标签">
+                            <Tooltip title="请输入小节标签(在此处添加之后，需在针对课程对标签进行分别添加)">
                             <Icon type="question-circle-o" />
                           </Tooltip>
                         </span>

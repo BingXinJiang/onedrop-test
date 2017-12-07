@@ -38,11 +38,11 @@ class OnedropPlat extends React.Component{
     render(){
         return(
             <Content style={{ padding: '0 50px' }}>
-                <Breadcrumb style={{ margin: '12px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
+                {/*<Breadcrumb style={{ margin: '12px 0' }}>*/}
+                    {/*<Breadcrumb.Item>Home</Breadcrumb.Item>*/}
+                    {/*<Breadcrumb.Item>List</Breadcrumb.Item>*/}
+                    {/*<Breadcrumb.Item>App</Breadcrumb.Item>*/}
+                {/*</Breadcrumb>*/}
                 <Layout style={{ padding: '24px 0', background: '#fff' }}>
                     <Sider width={200} style={{ background: '#fff' }}>
                         <Menu
